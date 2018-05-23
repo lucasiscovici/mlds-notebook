@@ -68,7 +68,7 @@ RUN conda install --quiet --yes 'spylon-kernel=0.4*' && \
 
 
 
-
+USER root
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
 ENV JULIA_PKGDIR=/opt/julia
