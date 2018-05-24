@@ -1,5 +1,4 @@
-
-FROM jupyter/all-spark-notebook
+FROM luissalgadofreire/h2o-pysparkling
 
 ARG TEST_ONLY_BUILD
 
@@ -123,3 +122,23 @@ RUN conda install --quiet --yes \
     conda clean -tipsy && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+
+# INSTALL THEANOS
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  gfortran \
+  git \
+  wget \
+  liblapack-dev \
+  libopenblas-dev \
+  python-dev \
+  python-pip \
+  python-nose \
+  python-numpy \
+  python-scipy
+
+# Install bleeding-edge Theano
+RUN pip install --upgrade pip
+RUN pip install --upgrade six
+RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
