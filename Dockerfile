@@ -123,6 +123,7 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+USER root
 
 # INSTALL THEANOS
 RUN apt-get update && apt-get install -y \
@@ -139,6 +140,10 @@ RUN apt-get update && apt-get install -y \
   python-scipy
 
 # Install bleeding-edge Theano
-RUN pip install --upgrade pip
-RUN pip install --upgrade six
-RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
+RUN pip install --upgrade pip && \
+    pip install --upgrade six && \
+    pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
+
+# Install gcc xgboost
+RUN conda install -y gcc && \
+    pip install xgboost
