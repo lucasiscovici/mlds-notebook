@@ -1,4 +1,4 @@
-FROM luissalgadofreire/h2o-pysparkling
+FROM luissalgadofreire/h2o-pysparkling:onbuild
 
 ARG TEST_ONLY_BUILD
 
