@@ -40,8 +40,8 @@ WORKDIR /home/$NB_USER/work
 # use notebook-friendly backends in these images
 #ONBUILD COPY requirements-conda.txt /home/jovyan/work
 #ONBUILD RUN conda install --quiet --yes --file requirements-conda.txt && \
-            conda remove --quiet --yes --force qt pyqt && \
-            conda clean -tipsy
+            #conda remove --quiet --yes --force qt pyqt && \
+            #conda clean -tipsy
 
 # Install python packages with pip from requirements-pip.txt
 #ONBUILD COPY requirements-pip.txt /home/jovyan/work
