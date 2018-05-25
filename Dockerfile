@@ -28,6 +28,7 @@ RUN echo "deb http://ftp.uk.debian.org/debian jessie-backports main" >> /etc/apt
 
 # Switch back to jovyan to avoid accidental container running as root
 USER $NB_USER
+RUN conda update -n base conda
 
 # Add channels to conda to install custom packages
 RUN conda config --add channels menpo       # for opencv
@@ -76,7 +77,7 @@ ENV PATH="/home/$NB_USER/sparkling-water-2.1.7/bin:${PATH}"
 #USER $NB_USER
 
 
-#USER root
+USER root
 
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
@@ -162,7 +163,7 @@ RUN conda install --quiet --yes \
     fix-permissions /home/$NB_USER
 
 
-#USER root
+USER root
 # INSTALL THEANOS
 RUN apt-get update && apt-get install -y \
   build-essential \
