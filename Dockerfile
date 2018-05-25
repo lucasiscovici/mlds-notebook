@@ -2,6 +2,8 @@ FROM luissalgadofreire/h2o-pysparkling:onbuild
 
 ARG TEST_ONLY_BUILD
 
+ADD fix-permissions /usr/local/bin/fix-permissions
+
 USER root
 
 # Julia dependencies
