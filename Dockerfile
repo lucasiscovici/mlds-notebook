@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     libboost-all-dev \
     libsdl2-dev \
     swig \
+    vim \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -250,12 +251,18 @@ ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
 RUN julia -e 'Pkg.init()'
 
 #ENV NB_USER=mlds
+ENV NB_USER_CUSTOM=mlds
 USER root
 #RUN start.sh true 
-RUN echo $NB_USER:mlds | chpasswd
+RUN echo $NB_USER:$NB_USER_CUSTOM | chpasswd
 RUN usermod -a -G sudo $NB_USER
-RUN ln -s /home/$NB_USER /home/mlds
+RUN ln -s /home/$NB_USER /home/$NB_USER_CUSTOM
 
-COPY mlds.sh /usr/local/bin
-
+COPY $NB_USER_CUSTOM.sh /usr/local/bin
+RUN chmod o+x /usr/local/bin/$NB_USER_CUSTOM.sh
+RUN conda install -c conda-forge jupyter_nbextensions_configurator
+RUN cp /etc/sudoers /root/sudoers.bak
+RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo 'alias _sudo="/usr/bin/sudo' >> /home/$NB_USER/.bashrc
+RUN echo 'alias sudo="sudo PATH=\$PATH"' >> /home/$NB_USER/.bashrc
 USER $NB_UID

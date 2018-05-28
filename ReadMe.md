@@ -63,7 +63,9 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 # Container Infos
 - Default User is **jovyan** 
 	- have **root permission**
-	- password: **mlds**
+	- password: **mlds** 
+        - sudo works without password (share environment variable PATH with root automatically)
+        - sudo -i for root shell 
 - **/home/mlds** is a *symbolic link* to **/home/jovyan**
 - **/home/mlds/.custom** (or /home/jovyan/.custom) contains **all future packages** added in a container
 	- python (pip install **--user**)
