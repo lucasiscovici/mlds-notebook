@@ -166,10 +166,10 @@ RUN julia -e 'Pkg.init()' && \
     julia -e 'Pkg.update()' && \
     (test $TEST_ONLY_BUILD || julia -e 'Pkg.add("HDF5")') && \
     julia -e 'Pkg.add("Gadfly")' && \
-    julia -e 'Pkg.add("PyCall")' && \
-    julia -e 'Pkg.add("RCall")' && \
-    julia -e 'Pkg.add("CxxWrap.jl")' && \
-    julia -e 'Pkg.add("JavaCall.jl")' && \
+    #julia -e 'Pkg.add("PyCall")' && \
+    #julia -e 'Pkg.add("RCall")' && \
+    #julia -e 'Pkg.add("CxxWrap.jl")' && \
+    #julia -e 'Pkg.add("JavaCall.jl")' && \
     julia -e 'Pkg.add("RDatasets")' && \
     julia -e 'Pkg.add("IJulia")' && \
     # Precompile Julia packages \
