@@ -263,6 +263,6 @@ RUN chmod o+x /usr/local/bin/$NB_USER_CUSTOM.sh
 RUN conda install -c conda-forge jupyter_nbextensions_configurator
 RUN cp /etc/sudoers /root/sudoers.bak
 RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-RUN echo 'alias _sudo="/usr/bin/sudo' >> /home/$NB_USER/.bashrc
+RUN echo 'alias _sudo="/usr/bin/sudo"' >> /home/$NB_USER/.bashrc
 RUN echo 'alias sudo="sudo PATH=\$PATH"' >> /home/$NB_USER/.bashrc
 USER $NB_UID
