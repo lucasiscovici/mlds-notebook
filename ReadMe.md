@@ -81,7 +81,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 	- choose ports between XXXMin and XXXMax ( set XXXMax or XXXNb) (XXX = portNb,portTensorBoard, portH2o, portSpark )
 - multiple confs
 ## DOWNLOAD
-- download (bashCmd.zip)[https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip]
+- download [bashCmd.zip](https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip)
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
 ## RUN CMD
 - make mlds
