@@ -63,6 +63,18 @@ EXPOSE 54321
 EXPOSE 54322
 EXPOSE 55555
 
+RUN \
+    cd /home/$NB_USER \
+    && wget -q http://h2o-release.s3.amazonaws.com/h2o/rel-wolpert/11/h2o-3.18.0.11.zip \
+    && unzip h2o-3.18.0.11.zip \
+    && cd h2o-3.18.0.11 \
+    && mkdir -p /usr/local/h2o_jar/ \
+    && cp h2o.jar /usr/local/h2o_jar/ \
+    && cd .. \
+    && rm -rf h2o-3.18.0.11*
+
+# The following command removes the H2O module for Python.
+RUN pip uninstall h2o || true && pip install http://h2o-release.s3.amazonaws.com/h2o/rel-wolpert/11/Python/h2o-3.18.0.11-py2.py3-none-any.whl
 
 #https://s3.amazonaws.com/h2o-release/sparkling-water/rel-2.3/5/sparkling-water-2.3.5.zip
 # Install H2O sparkling water
@@ -70,12 +82,15 @@ RUN \
     cd /home/$NB_USER && \
     wget https://s3.amazonaws.com/h2o-release/sparkling-water/rel-2.3/5/sparkling-water-2.3.5.zip && \
     unzip sparkling-water-2.3.5.zip && \
-    cd sparkling-water-2.3.5
+    cd sparkling-water-2.3.5 && \
+    cp -R sparkling-water-2.3.5/bin/* /usr/local/bin && \
+    cd .. && /
+    rm -rf sparkling-water-2.3.5* 
 
 # Add sparkling-water's /bin folder to path
-ENV PATH="/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
+#ENV PATH="/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
 
-RUN pip install h2o_pysparkling_2.3 h2o
+RUN pip install h2o_pysparkling_2.3 
 
 # Switch back to jovyan to avoid container running accidentally as root
 #USER $NB_USER
@@ -150,6 +165,10 @@ RUN julia -e 'Pkg.init()' && \
     julia -e 'Pkg.update()' && \
     (test $TEST_ONLY_BUILD || julia -e 'Pkg.add("HDF5")') && \
     julia -e 'Pkg.add("Gadfly")' && \
+    julia -e 'Pkg.add("PyCall")' && \
+    julia -e 'Pkg.add("RCall")' && \
+    julia -e 'Pkg.add("CxxWrap.jl")' && \
+    julia -e 'Pkg.add("JavaCall.jl")' && \
     julia -e 'Pkg.add("RDatasets")' && \
     julia -e 'Pkg.add("IJulia")' && \
     # Precompile Julia packages \
@@ -198,6 +217,8 @@ RUN pip install py4j==0.10.6 psutil
 RUN pip install sos
 RUN pip install sos-notebook
 RUN python -m sos_notebook.install
+RUN pip install bash_kernel
+RUN python -m bash_kernel.install
 
 RUN pip install markdown-kernel  
 #USER root
@@ -207,12 +228,14 @@ ENV CUSTOM_DIR="$HOME/.custom"
 
 # VOLUME $CUSTOM_DIR
 RUN mkdir $CUSTOM_DIR
-ENV PIP_TARGET=$CUSTOM_DIR/python3
-RUN mkdir $PIP_TARGET
-ENV PYTHONPATH=$PIP_TARGET:$PYTHONPATH
+#ENV PIPI=$PIP_TARGET
+ENV PIPO_TARGET=$CUSTOM_DIR/python
+RUN mkdir $PIPO_TARGET
+ENV PYTHONUSERBASE=$PIPO_TARGET
+ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
 
 #r custom
- 
+RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' >/home/$NB_USER/.Rprofile
 RUN mkdir $CUSTOM_DIR/R
 ENV R_LIBS_USER=$CUSTOM_DIR/R:$R_LIBS_USER
 
@@ -231,4 +254,7 @@ USER root
 RUN echo $NB_USER:mlds | chpasswd
 RUN usermod -a -G sudo $NB_USER
 RUN ln -s /home/$NB_USER /home/mlds
+
+COPY mlds.sh /usr/local/bin
+
 USER $NB_UID

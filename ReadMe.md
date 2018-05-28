@@ -51,9 +51,10 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - 54321 
 - 54322 
 - 55555
-	
+### Spark
+- 4040
 ## Notebook Token 
-	(...) start-notebook.sh --NotebookApp.token="YOUR_TOKEN"
+	`(...) start-notebook.sh --NotebookApp.token="YOUR_TOKEN"`
 ( token or an password (Ex: mlds))
 
 ## Run with all options
@@ -65,6 +66,10 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 	- password: **mlds**
 - **/home/mlds** is a *symbolic link* to **/home/jovyan**
 - **/home/mlds/.custom** (or /home/jovyan/.custom) contains **all future packages** added in a container
-	- python (pip install)
+	- python (pip install **--user**)
 	- R (install.packages)
 	- julia (Pkg.add)
+# TODO
+- PB WITH R and Julia when installing new package, it's re-install the package if already exist globally and save it in .custom/ etc
+  - create package for R and julia for check if package already exist before to call the real fonction
+- Add RStudio
