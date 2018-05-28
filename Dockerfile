@@ -84,7 +84,7 @@ RUN \
     unzip sparkling-water-2.3.5.zip && \
     cd sparkling-water-2.3.5 && \
     cp -R sparkling-water-2.3.5/bin/* /usr/local/bin && \
-    cd .. && /
+    cd .. && \
     rm -rf sparkling-water-2.3.5* 
 
 # Add sparkling-water's /bin folder to path
