@@ -80,7 +80,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - Automatically choose Ports
 	- choose ports between XXXMin and XXXMax ( set XXXMax or XXXNb) (XXX = portNb,portTensorBoard, portH2o, portSpark )
 - multiple confs
-# DOWNLOAD
+## DOWNLOAD
 - download bashCmd.zip
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
 ## RUN CMD
