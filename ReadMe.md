@@ -78,19 +78,23 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 
 # BASH CMD
 - Automatically choose Ports
+	- choose ports between XXXMin and XXXMax ( set XXXMax or XXXNb) (XXX = portNb,portTensorBoard, portH2o, portSpark )
 - multiple confs
-
+# DOWNLOAD
+- download bashCmd.zip
+	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
+## RUN CMD
 - make mlds
-    -   custom=custom
-    -   work=work
-    -   latest=:latest
-    -   image=luluisco/mlds-notebook
-    -   cmd=mlds.sh
-    -   portNb=8888
+    -   custom=custom # volume or path to directory
+    -   work=work # volume or path to directory
+    -   latest=:latest # tag of image
+    -   image=luluisco/mlds-notebook # image
+    -   cmd=mlds.sh # command execute when run container (jupyter notebook)
+    -   portNb=8888 
     -   portTensorBoard=6006
-    -   portH2o=54321
+    -   portH2o=54321 
     -   portSpark=4004
-    -   portNbMin=8888
+    -   portNbMin=8888 
     -   portTensorBoardMin=6006
     -   portH2oMin=54321
     -   portSparkMin=4004
@@ -102,11 +106,11 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
     -   portTensorBoardMax=XMin+XNb
     -   portH2oMax=XMin+XNb
     -   portSparkMax=XMin+XNb
-    -   home=/home/mlds/
-    -   home_custom=.custom
-    -   home_work=.custom
-    -   debug=-d
+    -   home=/home/mlds/ #Internal
+    -   home_custom=.custom #Internal
+    -   home_work=work #Internal
+    -   debug=-d 
     -   run_rm=--rm
     -   printCommand=yes
-    -   getP="./getP"
+    -   getP="./getP" # command for find port
 - `docker run  $debug $run_rm  -v $custom:$home$home_custom  -v $k/$work:$home$home_work -p $d:$portSpark  -p $a:$portNb  -p $b:$portTensorBoard  -p $c:$portH2o  $image$latest  $cmd`
