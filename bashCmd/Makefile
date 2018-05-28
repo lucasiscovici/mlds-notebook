@@ -43,6 +43,7 @@ mlds:
 	@a=`${getP} ${portNbMin} ${portNbMax}` && \
 	b=`${getP} ${portTensorBoardMin} ${portTensorBoardMax}` && \
 	c=`${getP} ${portH2oMin} ${portH2oMax}` && \
-	d=`${getP} ${portSparkMin} ${portSparkMax}`&& \
-	( test ${printCommand} = "yes" && echo 'docker run  "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "$$d:${portSpark}"  -p "$$a:${portNb} " -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}"  "${image}${latest}"  ${cmd}'  || true ) && \
-	docker run  "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "$$d:${portSpark}"  -p "$$a:${portNb} " -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}"  "${image}${latest}"  ${cmd}  || echo "Error ---- Help: " && make help
+	d=`${getP} ${portSparkMin} ${portSparkMax}` && \
+	test ${printCommand} = "yes" && echo 'docker run  "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "$$d:${portSpark}"  -p "$$a:${portNb} " -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}"  "${image}${latest}"  ${cmd}' || true
+
+	@docker run  "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "$$d:${portSpark}"  -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}"  "${image}${latest}"  ${cmd}  || ( echo "Error ---- Help: " && make help )
