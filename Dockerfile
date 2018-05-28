@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     libboost-all-dev \
     libsdl2-dev \
     swig \
-    vim \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -204,7 +203,8 @@ RUN apt-get update && apt-get install -y \
   python-pip \
   python-nose \
   python-numpy \
-  python-scipy
+  python-scipy \
+  vim 
 
 # Install bleeding-edge Theano
 RUN pip install --upgrade pip && \
