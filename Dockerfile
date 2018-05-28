@@ -84,7 +84,7 @@ RUN \
     wget https://s3.amazonaws.com/h2o-release/sparkling-water/rel-2.3/5/sparkling-water-2.3.5.zip && \
     unzip sparkling-water-2.3.5.zip && \
     cd sparkling-water-2.3.5 && \
-    cp -R sparkling-water-2.3.5/bin/* /usr/local/bin && \
+    cp -R bin/* /usr/local/bin && \
     cd .. && \
     rm -rf sparkling-water-2.3.5* 
 
