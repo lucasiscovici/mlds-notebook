@@ -80,15 +80,15 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - Automatically choose Ports
 - multiple confs
 
-make mlds
-   custom=custom
-   work=work
-   latest=:latest
-   image=luluisco/mlds-notebook
-   cmd=mlds.sh
-   portNb=8888
-   portTensorBoard=6006
-   portH2o=54321
+make mlds \n
+   custom=custom \n
+   work=work \n
+   latest=:latest \n
+   image=luluisco/mlds-notebook \n
+   cmd=mlds.sh \n
+   portNb=8888 \n
+   portTensorBoard=6006 \n
+   portH2o=54321 \n
    portSpark=4004
    portNbMin=8888
    portTensorBoardMin=6006
