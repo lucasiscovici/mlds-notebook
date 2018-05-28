@@ -63,6 +63,7 @@ EXPOSE 54321
 EXPOSE 54322
 EXPOSE 55555
 
+USER root
 RUN \
     cd /home/$NB_USER \
     && wget -q http://h2o-release.s3.amazonaws.com/h2o/rel-wolpert/11/h2o-3.18.0.11.zip \
