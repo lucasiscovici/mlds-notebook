@@ -23,7 +23,6 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 	- Notebook environment for both interactive data analysis and batch data processing  (**one notebook, multiple languages**)
 
 # Installation
-
 	docker pull luluisco/mlds-notebook
 
 
