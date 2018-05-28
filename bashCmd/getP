@@ -1,0 +1,12 @@
+#!/bin/bash
+
+	p=${2}
+	np=${1}
+	while nc -z "0.0.0.0" "$np" &>/dev/null && [ $np -le $p ] ; do
+    	np=$((np+1))
+    done
+    if [[ $np -eq $p ]];then
+    	echo "BUG PB PLUS DE PORT DISPO"
+    else
+    	echo "${np}"
+    fi
