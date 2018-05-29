@@ -15,7 +15,7 @@ jj = $(shell [[ -z "${work}" ]] || echo "-v \"$(k)/$(work):${home}${home_work}\"
 
 portNb ?= 8888
 portTensorBoard ?= 6006
-portH2o ?= 54321
+portH2o ?= 54321-54331
 portSpark ?= 7077
 
 portSparkMaster ?= 8080
@@ -43,6 +43,7 @@ portSparkContextE ?= 4050
 portSparkContextEMin ?= 4050
 portSparkContextENb ?= 100
 portSparkContextEMax ?= $$((${portSparkContextEMin} + ${portSparkContextENb}))
+portSparkContextENbX = $(shell echo `python -c "from math import * ;print(int(sqrt(${portSparkContextENb})))"`)
 
 
 
@@ -53,7 +54,8 @@ portSparkMin ?= 7077
 
 portNbNb ?= 10
 portTensorBoardNb ?= 10
-portH2oNb ?= 10
+portH2oNb ?= 100
+portH2oNbX = $(shell echo `python -c "from math import * ;print(int(sqrt(${portH2oNb})))"`)
 portSparkNb ?= 10
 
 portNbMax ?= $$((${portNbMin} + ${portNbNb}))
@@ -93,10 +95,11 @@ e=$$($$getP ${portSparkMasterMin} ${portSparkMasterMax} 2> /dev/null) && \
 f=$$(($$e+1)) && \
 g=$$($$getP ${portSparkContextBMin} ${portSparkContextBMax} 2> /dev/null) && \
 h=$$($$getP ${portSparkRestMin} ${portSparkRestMax} 2> /dev/null) && \
-i=$$($$getP ${portSparkContextEMin} ${portSparkContextEMax} 2> /dev/null) && \
+i=$$(($$g+${portSparkContextENbX})) && \
+l=$$(($$c+${portH2oNbX})) && \
 	 test -z $$getP  && echo "Error ------ getP"  || (\
-	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run  "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)':${portH2o}"  "${image}${latest}" ${cmd}' || true ) && \
-	docker run  "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}" ${more} "${image}${latest}"  ${cmd}  || ( echo "Error ---- Help: " && make help ) )
+	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run  "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}"  "${image}${latest}" ${cmd}' || true ) && \
+	docker run  "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  || ( echo "Error ---- Help: " && make help ) )
 define PB
 	echo "PB"
 endef	
