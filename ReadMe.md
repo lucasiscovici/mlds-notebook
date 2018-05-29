@@ -23,7 +23,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 	- Notebook environment for both interactive data analysis and batch data processing  (**one notebook, multiple languages**)
 
 # Installation
-	docker pull luluisco/mlds-notebook
+	docker pull luluisco/mlds-notebook:latest
 
 
 # Run
@@ -82,7 +82,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 ## DOWNLOAD
 - download [bashCmd.zip](https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip)
 - wget -q https://raw.githubusercontent.com/luluperet/mlds-notebook/master/bashCmd.zip && unzip bashCmd.zip && cd bashCmd
-- curl -s https://raw.githubusercontent.com/luluperet/mlds-notebook/master/bashCmd.zip && unzip bashCmd.zip && cd bashCmd
+- curl -s https://raw.githubusercontent.com/luluperet/mlds-notebook/master/bashCmd.zip -o bashCmd.zip && unzip bashCmd.zip && cd bashCmd
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
 	- put the directory "bashCmd" in the root of your project
 ## RUN CMD
