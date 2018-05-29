@@ -81,7 +81,8 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - multiple confs
 ## DOWNLOAD
 - download [bashCmd.zip](https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip)
-- wget -q https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip && unzip bashCmd.zip && cd bashCmd
+- wget -q https://raw.githubusercontent.com/luluperet/mlds-notebook/master/bashCmd.zip && unzip bashCmd.zip && cd bashCmd
+- curl -s https://raw.githubusercontent.com/luluperet/mlds-notebook/master/bashCmd.zip && unzip bashCmd.zip && cd bashCmd
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
 	- put the directory "bashCmd" in the root of your project
 ## RUN CMD
