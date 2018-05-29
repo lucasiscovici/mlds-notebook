@@ -247,7 +247,7 @@ RUN mkdir -p $CUSTOM_DIR/julia
 
 ENV JULIA_LOAD_PATH=$JULIA_PKGDIR/v0.6
 ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
-
+ENV PYSPARK_PYTHON='$CONDA_DIR/bin/python'
 RUN julia -e 'Pkg.init()'
 
 #ENV NB_USER=mlds
@@ -265,4 +265,6 @@ RUN cp /etc/sudoers /root/sudoers.bak
 RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo 'alias _sudo="/usr/bin/sudo"' >> /home/$NB_USER/.bashrc
 RUN echo 'alias sudo="sudo PATH=\$PATH"' >> /home/$NB_USER/.bashrc
+
+EXPOSE 8080 7077 8888 8081 4040 7001 7002 7003 7004 7005 7006 54321 4040-4050 6066 6006
 USER $NB_UID
