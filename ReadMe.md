@@ -88,7 +88,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 ## RUN CMD
 - make mlds
     -   custom=custom # volume or path to directory
-    -   work=work # volume or path to directory
+    -   work=../work # volume or path to directory
     -   latest=:latest # tag of image
     -   image=luluisco/mlds-notebook # image
     -   cmd=mlds.sh # command execute when run container (jupyter notebook)

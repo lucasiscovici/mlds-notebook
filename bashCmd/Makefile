@@ -1,5 +1,5 @@
 .ONESHELL:
-custom ?= custom
+custom ?= custom$(shell date +"%s")
 work ?= work
 
 latest ?= :latest
@@ -31,6 +31,7 @@ portTensorBoardMax ?= $$((${portTensorBoardMin} + ${portTensorBoardNb}))
 portH2oMax ?= $$((${portH2oMin} + ${portH2oNb}))
 portSparkMax ?= $$((${portSparkMin} + ${portSparkNb}))
 
+more ?= ""
 debug ?= -d
 run_rm ?= --rm
 printCommand ?= "yes"
@@ -59,7 +60,8 @@ b=$$($$getP ${portTensorBoardMin} ${portTensorBoardMax} 2> /dev/null) && \
 c=$$($$getP ${portH2oMin} ${portH2oMax} 2> /dev/null) && \
 d=$$($$getP ${portSparkMin} ${portSparkMax} 2> /dev/null) && test -z $$getP  && echo "Error ------ getP"  || (\
 	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run  "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "'$$( echo $$d)':${portSpark}"  -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)':${portH2o}"  "${image}${latest}" ${cmd}' || true ) && \
-	docker run  "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "$$d:${portSpark}"  -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}"  "${image}${latest}"  ${cmd}  || ( echo "Error ---- Help: " && make help ) )
+	docker run  --expose="1-10000" "${debug}" "${run_rm}"  -v "${custom}:${home}${home_custom}"  -v "$(k)/$(work):${home}${home_work}" -p "$$d:${portSpark}"  -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c:${portH2o}" ${more} "${image}${latest}"  ${cmd}  || ( echo "Error ---- Help: " && make help ) )
 define PB
 	echo "PB"
 endef	
+
