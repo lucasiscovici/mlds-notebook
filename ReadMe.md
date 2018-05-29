@@ -28,7 +28,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 
 # Run
 ## Basic
-	docker run --rm -ti -p 8888:8888 luluisco/mlds-notebook
+	docker run --rm -ti -p 8888:8888 luluisco/mlds-notebook:latest
 	
 ## With Volumes
 
@@ -81,7 +81,9 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - multiple confs
 ## DOWNLOAD
 - download [bashCmd.zip](https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip)
+- wget -q https://github.com/luluperet/mlds-notebook/raw/master/bashCmd.zip && unzip bashCmd.zip && cd bashCmd
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
+	- put the directory "bashCmd" in the root of your project
 ## RUN CMD
 - make mlds
     -   custom=custom # volume or path to directory
