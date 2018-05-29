@@ -117,3 +117,8 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
     -   getP=getP # command for find port
     -   quiet=no
 - `docker run  $debug $run_rm  -v $custom:$home$home_custom  -v $k/$work:$home$home_work -p $d:$portSpark  -p $a:$portNb  -p $b:$portTensorBoard  -p $c:$portH2o  $image$latest  $cmd`
+- Exemples: 
+	- make mlds
+	- make mlds work=../work
+	- make mlds custom=customMyProject work=../work
+	- etc
