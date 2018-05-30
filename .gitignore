@@ -1,3 +1,5 @@
 .gradle
 work
 examples
+.DS_Store
+AUCPUSH
