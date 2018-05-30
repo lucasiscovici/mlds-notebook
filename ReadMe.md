@@ -86,6 +86,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
 	- put the directory "bashCmd" in the root of your project
 ## MAKE CMD
+- make | make help # get help
 - make mlds
     ### Images
         - latest=:latest    
