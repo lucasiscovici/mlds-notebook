@@ -1,0 +1,87 @@
+- make | make help # get help
+- make mlds 
+    ### PARAMETERS
+    ### Images
+     - latest=:latest    
+     - image=luluisco/mlds-notebook
+     - cmd=mlds<i></i>.sh  
+         - cmd to execute after run
+         -  execute mlds<i></i>.sh by default(open notebook and set token to mlds)
+     - more=  
+         - is empty
+         - supplementary parameters 
+     - getP=getP 
+         - command for find port
+     - quiet=no
+     ### Params Presence
+   - debug=-d  
+       - docker run -d (detact)
+       - could be -ti
+   - run_rm=--rm 
+       - remote container after die
+    ### Volumes
+     - custom=      
+         - is empty
+         - if set create volume for /home/mlds/.custom
+         - could be an volume name or path (think to set with long path "$PWD/customXXX")
+     - work=../work    
+         - if set create volume for /home/mlds/work
+         - path to work #TODO POSSIBILITY SET VOLUME
+       - **INTERNAL**
+          - home=/home/mlds/ #internal
+          - home_custom=.custom #internal
+          - home_work=work #internal
+     ### Ports
+     -  #### Jupyter notebook
+          - **INTERNAL**
+             - portNb=8888 #internal jupyter notebook port
+         - portNbMin=8888 #jupyter begin port
+         - portNbNb=10 #nb of available port
+         - portNbMax=portNbMin + portNbNb #or set manually
+      -  #### Spark
+            - **INTERNAL**
+              - portSpark=7077  #internal spark port
+              - portSparkMaster=8080 #internal spark master port
+              - portSparkSlave=8081 #internal spark slave port
+              - portSparkRest=6066 #internal spark rest port
+              - portSparkContextB=4040 #internal spark context begin port
+              - portSparkContextE=4050 #internal spark context end port
+           - **MIN**
+               - portSparkMin=7077 #spark begin port
+               - portSparkMasterMin=8080 #spark master begin port
+               - portSparkSlaveMin=8081 #spark slave begin port
+               - portSparkRestMin=6066 #spark rest begin port
+               - portSparkContextBMin=4040 #spark context begin port
+               - portSparkContextEMin=4050 #spark context end port
+            - **NB**
+                 - portSparkNb=10 #nb of available ports for each run
+                - portSparkMasterNb=10 #spark master nb of available ports for each run
+                - portSparkSlaveNb=10 #spark slave nb of available ports for each run
+                - portSparkRestNb=10 #sparke rest nb of available ports for each run
+                - portSparkContextBNb=100 #spark context begin port 100 because 10 port available for each run (nb of available ports for each run)
+                - portSparkContextENb=100 #spark context end port 100 because 10 port available for each run (nb of available ports for each run)
+             - **MAX**
+                - portSparkMasterMax=portSparkMasterMin + portSparkMasterNb  #or set manually
+                - portSparkSlaveMax=portSparkSlaveMin + portSparkSlaveNb #or set manually
+                - portSparkRestMax=portSparkRestMin + portSparkRestNb #or set manually
+                - portSparkContextBMax=portSparkContextBMin + portSparkContextBNb #or set manually
+                - portSparkContextEMax=portSparkContextEMin + portSparkContextENb #or set manually
+                - portSparkMax=portSparkMin + portSparkNb #or set manually
+
+        - #### H2O
+            - **INTERNAL**
+                - portH2o=54321-54331 #internal h2o ports
+            - portH2oMin=54321 #H2o begin port
+            - portH2oNb=100 #nb of availave ports 100 because for 10 ports for each instance 10^2 = 100 
+            - portH2oMax=portH2oMin + portH2oNb #or set manually
+        - #### TensorFlow TensorBoard
+           -  #### INTERNAL  
+                - portTensorBoard=6006 internal tensorflow tensorboard port
+            - portTensorBoardMin=6006 #TensorBoard begin port
+            - portTensorBoardNb=10 #nb of available ports
+            - portTensorBoardMax=portTensorBoardMin + portTensorBoardNb #or set Manualy
+
+    ### SPECIAL
+     - printCommand="yes" 
+         - show command
+- `docker run ${name} "${debug}" "${run_rm}" $VOLUMES $PORTS  ${more} "${image}${latest}"  ${cmd}`

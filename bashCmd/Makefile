@@ -68,17 +68,20 @@ debug ?= -d
 run_rm ?= --rm
 printCommand ?= "yes"
 
-
+help ?= no
 quiet="no"
 
 
 help:
-	@echo "make mlds"
-	@echo "custom= work=../work latest=:latest image=luluisco/mlds-notebook cmd=mlds.sh portNb=8888 portTensorBoard=6006 portH2o=54321 portSpark=4004 portNbMin=8888 portTensorBoardMin=6006 portH2oMin=54321 portSparkMin=4004 portNbNb=10 portTensorBoardNb=10 portH2oNb=10 portSparkNb=10 portNbMax=XMin+XNb portTensorBoardMax=XMin+XNb portH2oMax=XMin+XNb portSparkMax=XMin+XNb home=/home/mlds/ home_custom=.custom home_work=home_work debug=-d run_rm=--rm printCommand=yes getP='./getP' quiet=no name=" | tr ' ' '\n' | sed -En "s/^(.*)$//\ \ \ \1/p" 
-	@echo 'docker run  $$debug $$run_rm  -v $$custom:$$home$$home_custom  -v $$k/$$work:$$home$$home_work -p $$d:$$portSpark  -p $$a:$$portNb  -p $$b:$$portTensorBoard  -p $$c:$$portH2o  $$image$$latest  $$cmd'
+	@echo "---------Help---------"
+	@cat makeHelp
+	@#@echo "custom= work=../work latest=:latest image=luluisco/mlds-notebook cmd=mlds.sh portNb=8888 portTensorBoard=6006 portH2o=54321 portSpark=4004 portNbMin=8888 portTensorBoardMin=6006 portH2oMin=54321 portSparkMin=4004 portNbNb=10 portTensorBoardNb=10 portH2oNb=10 portSparkNb=10 portNbMax=XMin+XNb portTensorBoardMax=XMin+XNb portH2oMax=XMin+XNb portSparkMax=XMin+XNb home=/home/mlds/ home_custom=.custom home_work=home_work debug=-d run_rm=--rm printCommand=yes getP='./getP' quiet=no name=" | tr ' ' '\n' | sed -En "s/^(.*)$//\ \ \ \1/p" 
+	@#@echo 'docker run  $$debug $$run_rm  -v $$custom:$$home$$home_custom  -v $$k/$$work:$$home$$home_work -p $$d:$$portSpark  -p $$a:$$portNb  -p $$b:$$portTensorBoard  -p $$c:$$portH2o  $$image$$latest  $$cmd'
 
 mlds:
-	@if [[ $(shell echo \"$(shell test -f "getP" && echo "true" || echo "false")\") = "true" ]]; then \
+	@if [[ -z "${help}" || ( "${help}" != "no" && "${help}" != "false" && "${help}" != "f") ]]; then \
+		make help; \
+	else if [[ $(shell echo \"$(shell test -f "getP" && echo "true" || echo "false")\") = "true" ]]; then \
 	getP=./getP ;\
 	elif [[ $(shell test -f \"../getP\" && echo \"true\" || echo \"false\") = "true" ]];then \
 	getP=../getP; \
@@ -99,7 +102,8 @@ i=$$(($$g+${portSparkContextENbX})) && \
 l=$$(($$c+${portH2oNbX})) && \
 	 test -z $$getP  && echo "Error ------ getP"  || (\
 	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}"  "${image}${latest}" ${cmd}' || true ) && \
-	docker run ${jname} "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  )
+	docker run ${jname} "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  ) \
+	fi
 define PB
 	echo "PB"
 endef	
