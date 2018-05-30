@@ -98,14 +98,14 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
     ### Params Presence
         - debug=-d  #docker run -d (detact); could be -ti
         - run_rm=--rm #remote container after die
-    ### VOLUMES
+    ### Volumes
         - custom=      #Is empty; if set create volume for /home/mlds/.custom, could be an volume name or path
         - work=../work    #if set create volume for /home/mlds/work, could be an volume name or path
-        #### INTERNAL
+       #### INTERNAL
             - home=/home/mlds/ #internal
             - home_custom=.custom #internal
             - home_work=work #internal
-    ### PORTS
+    ### Ports
         #### jupyter notebook
             ##### INTERNAL
                 - portNb=8888 #internal jupyter notebook port
