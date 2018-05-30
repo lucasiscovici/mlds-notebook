@@ -1,1 +1,4 @@
+#!/bin/bash
+. ~/.bashrc
+
 rm -rf bashCmd.zip && zip -q -o bashCmd.zip bashCmd/* && AUCPUSH
