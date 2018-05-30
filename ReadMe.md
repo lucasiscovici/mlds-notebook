@@ -85,40 +85,91 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - curl -s https://raw.githubusercontent.com/luluperet/mlds-notebook/master/bashCmd.zip -o bashCmd.zip && unzip bashCmd.zip && cd bashCmd
 	- Warning !! don't move Makefile or getP,  if not change variable 'work' and 'getP'
 	- put the directory "bashCmd" in the root of your project
-## RUN CMD
+## MAKE CMD
 - make mlds
-    -   custom=custom # volume or path to directory
-    -   work=../work # volume or path to directory
-    -   latest=:latest # tag of image
-    -   image=luluisco/mlds-notebook # image
-    -   cmd=mlds.sh # command execute when run container (jupyter notebook)
-    -   portNb=8888 
-    -   portTensorBoard=6006
-    -   portH2o=54321 
-    -   portSpark=4004
-    -   portNbMin=8888 
-    -   portTensorBoardMin=6006
-    -   portH2oMin=54321
-    -   portSparkMin=4004
-    -   portNbNb=10
-    -   portTensorBoardNb=10
-    -   portH2oNb=10
-    -   portSparkNb=10
-    -   portNbMax=XMin+XNb
-    -   portTensorBoardMax=XMin+XNb
-    -   portH2oMax=XMin+XNb
-    -   portSparkMax=XMin+XNb
-    -   home=/home/mlds/ #Internal
-    -   home_custom=.custom #Internal
-    -   home_work=work #Internal
-    -   debug=-d 
-    -   run_rm=--rm
-    -   printCommand=yes
-    -   getP=getP # command for find port
-    -   quiet=no
-- `docker run  $debug $run_rm  -v $custom:$home$home_custom  -v $k/$work:$home$home_work -p $d:$portSpark  -p $a:$portNb  -p $b:$portTensorBoard  -p $c:$portH2o  $image$latest  $cmd`
+    ### Images
+        - latest=:latest    
+        - image=luluisco/mlds-notebook
+        - cmd=mlds.sh  #cmd to execute after run; execute mlds.sh by default(open notebook and token is mlds)
+        - more=  #Is empty; parameters supplementaires
+        - getP=getP # command for find port
+        - quiet=no
+    ### Params Presence
+        - debug=-d  #docker run -d (detact); could be -ti
+        - run_rm=--rm #remote container after die
+    ### VOLUMES
+        - custom=      #Is empty; if set create volume for /home/mlds/.custom, could be an volume name or path
+        - work=../work    #if set create volume for /home/mlds/work, could be an volume name or path
+        #### INTERNAL
+            - home=/home/mlds/ #internal
+            - home_custom=.custom #internal
+            - home_work=work #internal
+    ### PORTS
+        #### jupyter notebook
+            ##### INTERNAL
+                - portNb=8888 #internal jupyter notebook port
+            - portNbMin=8888 #jupyter begin port
+            - portNbNb=10 #nb of available port
+            - portNbMax=portNbMin + portNbNb #or set manually
+        #### Spark
+            ##### INTERNAL
+                - portSpark=7077  #internal spark port
+                - portSparkMaster=8080 #internal spark master port
+                - portSparkSlave=8081 #internal spark slave port
+                - portSparkRest=6066 #internal spark rest port
+                - portSparkContextB=4040 #internal spark context begin port
+                - portSparkContextE=4050 #internal spark context end port
+            - portSparkMin=7077 #spark begin port
+            - portSparkMasterMin=8080 #spark master begin port
+            - portSparkSlaveMin=8081 #spark slave begin port
+            - portSparkRestMin=6066 #spark rest begin port
+            - portSparkContextBMin=4040 #spark context begin port
+            - portSparkContextEMin=4050 #spark context end port
+            
+            - portSparkNb=10 #nb of available ports for each run
+            - portSparkMasterNb=10 #spark master nb of available ports for each run
+            - portSparkSlaveNb=10 #spark slave nb of available ports for each run
+            - portSparkRestNb=10 #sparke rest nb of available ports for each run
+            - portSparkContextBNb=100 #spark context begin port 100 because 10 port available for each run (nb of available ports for each run)
+            - portSparkContextENb=100 #spark context end port 100 because 10 port available for each run (nb of available ports for each run)
+
+            - portSparkMasterMax=portSparkMasterMin + portSparkMasterNb  #or set manually
+            - portSparkSlaveMax=portSparkSlaveMin + portSparkSlaveNb #or set manually
+            - portSparkRestMax=portSparkRestMin + portSparkRestNb #or set manually
+            - portSparkContextBMax=portSparkContextBMin + portSparkContextBNb #or set manually
+            - portSparkContextEMax=portSparkContextEMin + portSparkContextENb #or set manually
+            - portSparkMax=portSparkMin + portSparkNb #or set manually
+
+        #### H2O
+            #### INTERNAL  
+                 - portH2o=54321-54331 #internal h2o ports
+            - portH2oMin=54321 #H2o begin port
+            - portH2oNb=100 #nb of availave ports 100 because for 10 ports for each instance 10^2 = 100 
+            - portH2oMax=portH2oMin + portH2oNb #or set manually
+        #### TensorFlow TensorBoard
+            #### INTERNAL  
+                - portTensorBoard=6006 #internal tensorflow tensorboard port
+            - portTensorBoardMin=6006 #TensorBoard begin port
+            - portTensorBoardNb=10 #nb of available ports
+            - portTensorBoardMax=portTensorBoardMin + portTensorBoardNb #or set Manualy
+
+    ### SPECIAL
+       - printCommand="yes" #show command
+- `docker run ${name} "${debug}" "${run_rm}" $VOLUMES $PORTS  ${more} "${image}${latest}"  ${cmd}`
+
 - Exemples: 
 	- make mlds
-	- make mlds work=../work
+	- make mlds work=work/
 	- make mlds custom=customMyProject work=../work
 	- etc
+## OTHERS CMD
+When the cotainer is running, go to the terminal and </br>
+`$ export MLDS_C_CURR="NAME_OR_ID_OF_CONTAINER"`
+ ### Start Master Spark
+    - `./start-master.sh [id_or_name_of_container_or_nothing_if_MLDS_C_CURR_IS_SET]`
+ ### Start Slave Spark
+    - `./start-slave.sh [id_or_name_of_container_or_nothing_if_MLDS_C_CURR_IS_SET] IP_OF_MASTER (192.168.X.X or localhost if local)`
+### Execute command in container (detach by default)
+    - `./exec.sh [-ti_or_nothing] CMD_TO_EXECUTE` if MLDS_C_CURR is set
+    - `./exec.sh id_or_name_of_container CMD_TO_EXECUTE [-ti_or_nothing]`
+## Open browser (mac)
