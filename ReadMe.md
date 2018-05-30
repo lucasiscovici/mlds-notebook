@@ -210,6 +210,7 @@ When the container is running, go to the terminal and write </br>
 ### Container
 - stop `$ ./stop.sh [id_or_name_of_container_or_nothing_if_MLDS_C_CURR_IS_SET]`
 - stopAll `$ ./stopAll.sh`
+- ps `$ ./cps`
 ### MON IP
 - ip local `$ ./monip.sh l`
 - ip internet `$ ./monip.sh i` 
