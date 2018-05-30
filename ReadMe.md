@@ -202,3 +202,14 @@ When the container is running, go to the terminal and write </br>
 ### Logs
 -   `$ ./logs` **if MLDS_C_CURR is set**
 -   `$ ./logs id_or_name_of_container`
+### Volumes
+- create `$ ./createVolume.sh NAME`
+- inspect `$ ./inspectVolume.sh NAME`
+- remove `$ ./rmVolume.sh NAME`
+- volume `$ ./volume.sh`
+### Container
+- stop `$ ./stop.sh [id_or_name_of_container_or_nothing_if_MLDS_C_CURR_IS_SET]`
+- stopAll `$ ./stopAll.sh`
+### MON IP
+- ip local `$ ./monip.sh l`
+- ip internet `$ ./monip.sh i` 
