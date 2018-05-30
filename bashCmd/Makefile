@@ -1,5 +1,5 @@
 .ONESHELL:
-custom ?= custom$(shell date +"%s")
+custom ?= 
 work ?= work
 
 latest ?= :latest
