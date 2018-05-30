@@ -1,5 +1,9 @@
 if [[ $# -ne 2 ]]; then
-	echo "start-slave.sh container_ID sparkMasterIP"
+	if [[ -z $MLDS_C_CURR ]]; then
+		echo "start-slave.sh container_ID sparkMasterIP"
+	else
+		./exec.sh "$MLDS_C_CURR" '$2'
+	fi
 else
-	docker exec -ti "$1" bash -c 'sudo $SPARK_HOME/sbin/start-slave.sh spark://'$2':7077'
+	./exec.sh "$1" 'sudo $SPARK_HOME/sbin/start-slave.sh spark://'$2':7077'
 fi
