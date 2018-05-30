@@ -239,6 +239,9 @@ ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
 #r custom
 RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' >/home/$NB_USER/.Rprofile
 RUN mkdir $CUSTOM_DIR/R
+RUN Rscript -e "install.packages('h2o')"
+RUN Rscript -e "install.packages('sparklyr')"
+RUN Rscript -e "install.packages('rsparkling')"
 ENV R_LIBS_USER=$CUSTOM_DIR/R:$R_LIBS_USER
 
 #julia custom
@@ -266,6 +269,6 @@ RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo 'alias _sudo="/usr/bin/sudo"' >> /home/$NB_USER/.bashrc
 RUN echo 'alias sudo="sudo PATH=\$PATH"' >> /home/$NB_USER/.bashrc
 
-EXPOSE 8080 7077 8888 8081 4040 7001 7002 7003 7004 7005 7006 54321-54331 4040-4050 6066 6006
+EXPOSE 8080 7077 8888 8081 4040 7001-7006 54321-54331 4040-4050 6066 6006
 USER $NB_UID
 ENV PYSPARK_PYTHON="$CONDA_DIR/bin/python"
