@@ -196,6 +196,9 @@ When the container is running, go to the terminal and write </br>
 ### Execute command in container (detach by default)
    - `$ ./exec.sh [-ti_or_nothing] CMD_TO_EXECUTE` **if MLDS_C_CURR is set**
    - `$ ./exec.sh id_or_name_of_container CMD_TO_EXECUTE [-ti_or_nothing]`
-## Open browser (mac) (localhost)
--   `open nb`
--   `open IP`
+### Open browser (mac) (localhost)
+-   `$ ./open nb`
+-   `$ ./open IP`
+### Logs
+-   `$ ./logs` **if MLDS_C_CURR is set**
+-   `$ ./logs id_or_name_of_container`
