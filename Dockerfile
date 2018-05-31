@@ -262,13 +262,18 @@ RUN usermod -a -G sudo $NB_USER
 RUN ln -s /home/$NB_USER /home/$NB_USER_CUSTOM
 
 COPY $NB_USER_CUSTOM.sh /usr/local/bin
-RUN chmod o+x /usr/local/bin/$NB_USER_CUSTOM.sh
+RUN chmod a+x /usr/local/bin/$NB_USER_CUSTOM.sh
 RUN conda install -c conda-forge jupyter_nbextensions_configurator
 RUN cp /etc/sudoers /root/sudoers.bak
 RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo 'alias _sudo="/usr/bin/sudo"' >> /home/$NB_USER/.bashrc
 RUN echo 'alias sudo="sudo PATH=\$PATH"' >> /home/$NB_USER/.bashrc
 
-EXPOSE 8080 7077 8888 8081 4040 7001-7006 54321-54331 4040-4050 6066 6006
+EXPOSE 8080 7077 8888 8081 4040 7001-7006 54321-54331 4040-4050 6066 6006 3000-3010 5050 5051 8088 8025 8030 8141 45454 8042 10200 8188 8190 19888 21000-24000 30000-34000 8787
 USER $NB_UID
 ENV PYSPARK_PYTHON="$CONDA_DIR/bin/python"
+ENV PATH="$CUSTOM_DIR/bin:/usr/local/bin_base:/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
+USER root
+RUN mv /usr/local/bin /usr/local/bin_base
+RUN ln -s /usr/local/bin $CUSTOM_DIR/bin
+USER $NB_UID
