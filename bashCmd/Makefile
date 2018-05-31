@@ -7,7 +7,7 @@ image ?= luluisco/mlds-notebook
 cmd ?= mlds.sh
 getP=
 home ?= /home/mlds/
-home_custom ?= .custom
+home_custom ?= .customs
 home_work ?= work
 k := $(strip $(PWD))
 j = $(shell [[ -z "${custom}" ]] || echo "-v \"${custom}:${home}${home_custom}\"")
@@ -71,7 +71,7 @@ printCommand ?= "yes"
 help ?= no
 quiet="no"
 
-
+#macbook-pro-7:mlds-notebook lucasiscovici$ docker inspect --format="{{json .Config.ExposedPorts }}" luluisco/mlds-notebook:latest | tr ',' '\n' | sed -En "s/^\"([^\/]+).*$/\1/p"
 help:
 	@echo "---------Help---------"
 	@cat makeHelp
@@ -101,7 +101,7 @@ h=$$($$getP ${portSparkRestMin} ${portSparkRestMax} 2> /dev/null) && \
 i=$$(($$g+${portSparkContextENbX})) && \
 l=$$(($$c+${portH2oNbX})) && \
 	 test -z $$getP  && echo "Error ------ getP"  || (\
-	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}"  "${image}${latest}" ${cmd}' || true ) && \
+	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}${latest}" ${cmd}' || true ) && \
 	docker run ${jname} "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  ) \
 	fi
 define PB
