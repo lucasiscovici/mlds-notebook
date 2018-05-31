@@ -5,5 +5,6 @@ else
 		echo -e "stop.sh container_ID_NAME"
 	else
 		 docker stop "$MLDS_C_CURR" 
+		 kill -SIGUSR1 $PPID
 	fi
 fi

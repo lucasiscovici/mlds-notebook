@@ -1,7 +1,7 @@
 .ONESHELL:
 custom ?= 
 work ?= ../work
-name ?=
+name ?= $(strip $(shell [[ -n "$$MLDS_C_CURR" ]]  && echo "$$MLDS_C_CURR"))
 latest ?= :latest
 image ?= luluisco/mlds-notebook
 cmd ?= mlds.sh
@@ -70,9 +70,12 @@ printCommand ?= "yes"
 
 help ?= no
 quiet="no"
-
+ppidj=$(shell ps -o ppid= -p $$PPID)
+# ppidj2=$$$
 #macbook-pro-7:mlds-notebook lucasiscovici$ docker inspect --format="{{json .Config.ExposedPorts }}" luluisco/mlds-notebook:latest | tr ',' '\n' | sed -En "s/^\"([^\/]+).*$/\1/p"
 help:
+	# @echo "${ppidj}"
+	# @echo "${ppidj2}"
 	@echo "---------Help---------"
 	@cat makeHelp
 	@#@echo "custom= work=../work latest=:latest image=luluisco/mlds-notebook cmd=mlds.sh portNb=8888 portTensorBoard=6006 portH2o=54321 portSpark=4004 portNbMin=8888 portTensorBoardMin=6006 portH2oMin=54321 portSparkMin=4004 portNbNb=10 portTensorBoardNb=10 portH2oNb=10 portSparkNb=10 portNbMax=XMin+XNb portTensorBoardMax=XMin+XNb portH2oMax=XMin+XNb portSparkMax=XMin+XNb home=/home/mlds/ home_custom=.custom home_work=home_work debug=-d run_rm=--rm printCommand=yes getP='./getP' quiet=no name=" | tr ' ' '\n' | sed -En "s/^(.*)$//\ \ \ \1/p" 
@@ -101,10 +104,9 @@ h=$$($$getP ${portSparkRestMin} ${portSparkRestMax} 2> /dev/null) && \
 i=$$(($$g+${portSparkContextENbX})) && \
 l=$$(($$c+${portH2oNbX})) && \
 	 test -z $$getP  && echo "Error ------ getP"  || (\
-	((test ${printCommand} = "yes" && test ${quiet} = "no" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}${latest}" ${cmd}' || true ) && \
-	docker run ${jname} "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  ) \
-	fi
+	((test ${printCommand} = "yes" && test "${quiet}" = "no" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}${latest}" ${cmd}' || true ) && \
+	docker run ${jname} "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  &&  ./kill.sh ${ppidj})  \
+	fi 
 define PB
 	echo "PB"
 endef	
-

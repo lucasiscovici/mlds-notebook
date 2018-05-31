@@ -1,6 +1,6 @@
 
 function _exec(){
-	if [[ $(docker ps --format="{{.Names}}" | grep -q "$1") ]] && [[ $(docker ps -q | grep -q "$1") ]]; then
+	if ! ./_check.sh "$1"; then
 		echo "PB $1 n'existe pas"
 	else
 		# echo -e "PB $1 existe\n"
@@ -15,7 +15,7 @@ function _exec(){
 
 if [[ $# -lt 3 ]]; then
 	if [[ $# -eq 2 ]]; then
-		if [[ $2 == "-i" || $2 == "i" || $2 == "-t" || $2 == "t" || $2 == "ti" || $2=="it" || $2=="-ti"  || $2=="-it" ]]; then
+		if [[ "$2" == "-i" || "$2" == "i" || "$2" == "-t" || "$2" == "t" || "$2" == "ti" || "$2" == "it" || "$2" == "-ti"  || "$2" == "-it" ]]; then
 			# shift
 			if [[ -z $MLDS_C_CURR ]]; then
 				echo -e "exec.sh container_ID CMD [-ti]"
