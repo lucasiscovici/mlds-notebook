@@ -33,7 +33,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
     
 ## With Volumes
 
-### Persist Added Packages ( R, Julia, Python(pip))
+### Persist Added Packages ( R, Julia, python3(pip), apt-get(bin))
 
     -v custom:/home/mlds/.custom
 (create volume custom if not exist, in make cmd is the parameter 'custom')
