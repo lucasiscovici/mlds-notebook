@@ -251,7 +251,7 @@ RUN mkdir -p $CUSTOM_DIR/julia
 ENV JULIA_LOAD_PATH=$JULIA_PKGDIR/v0.6
 ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
 ENV PYSPARK_PYTHON='$CONDA_DIR/bin/python'
-RUN julia -e 'Pkg.init()'
+# RUN julia -e 'Pkg.init()'
 
 #ENV NB_USER=mlds
 ENV NB_USER_CUSTOM=mlds
@@ -266,19 +266,27 @@ RUN conda install -c conda-forge jupyter_nbextensions_configurator
 RUN cp /etc/sudoers /root/sudoers.bak
 RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo 'alias _sudo="/usr/bin/sudo"' >> /home/$NB_USER/.bashrc
-RUN echo 'alias sudo="sudo PATH=\$PATH"' >> /home/$NB_USER/.bashrc
+RUN echo 'alias sudo="sudo -s PATH=\$PATH"' >> /home/$NB_USER/.bashrc
 
 EXPOSE 8080 7077 8888 8081 4040 7001-7006 54321-54331 4040-4050 6066 6006 3000-3010 5050 5051 8088 8025 8030 8141 45454 8042 10200 8188 8190 19888 21000-24000 30000-34000 8787
 USER $NB_UID
 ENV PYSPARK_PYTHON="$CONDA_DIR/bin/python"
-ENV PATH="$CUSTOM_DIR/bin:/usr/local/bin_base:/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
 #USER root
 #RUN mv /usr/local/bin /usr/local/bin_base
 #RUN ln -s /usr/local/bin $CUSTOM_DIR/bin
-RUN mkdir -p $CUSTOM_DIR/bin
+RUN mkdir -p $CUSTOM_DIR/bin 
 # RUN rm -rf /usr/local/bin/$NB_USER_CUSTOM.sh
 COPY $NB_USER_CUSTOM.sh /usr/local/bin
 USER root
 RUN chmod a+x /usr/local/bin/$NB_USER_CUSTOM.sh
+RUN mkdir -p /srv/deb/var/lib /usr/local/bin_base && cp -R /var/lib/dpkg /srv/deb/var/lib
+RUN mkdir -p /srv/tmp
 USER $NB_UID
-
+COPY cmd/apt-get /usr/local/bin_base/
+RUN sudo chmod -R 777 /usr/local/bin_base/
+RUN sudo chown $NB_USER:users /usr/local/bin_base/apt-get
+RUN chmod -R 777 ~/.custom/
+RUN mkdir ~/.customs/
+RUN mkdir ~/.tmp/
+ENV CUSTOM_DIR="$HOME/.customs"
+ENV PATH="/usr/local/bin_base:$CUSTOM_DIR/bin:/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"

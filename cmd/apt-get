@@ -1,0 +1,8 @@
+#!/bin/bash
+# echo $1
+if [[ $1 == "install" && $# -ge 2 ]]; then
+
+	f=~/.tmp/"$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" &&  mkdir -p "$f" &&  cd "$f" && /usr/bin/apt-get download "$2" && /usr/bin/sudo dpkg -i --admindir=/srv/deb/var/lib/dpkg --instdir=/srv/deb/ *.deb && /usr/bin/sudo cp -n /srv/deb/usr/bin/* $HOME/.customs/bin/ && /usr/bin/sudo rm -rf $(pwd) 
+else
+	/usr/bin/sudo /usr/bin/apt-get $@
+fi

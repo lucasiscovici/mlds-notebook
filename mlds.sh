@@ -1,1 +1,3 @@
-cp -R ~/.custom ~/.customs && rm -rf ~/.custom && start-notebook.sh --NotebookApp.token="mlds" $@
+( cp -R ~/.custom/* ~/.customs/ && rm -rf ~/.custom ) &
+start-notebook.sh --NotebookApp.token="mlds" $@  
+
