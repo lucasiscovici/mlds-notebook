@@ -53,7 +53,8 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 - 7077 #spark port
 - 8080 #spark master port
 - 8081 #spark slave port
-- 60
+- 6066 #spark rest port
+- 4040-4050 #spark context port
 ## Notebook Token 
     `(...) start-notebook.sh --NotebookApp.token="YOUR_TOKEN"`
 ( token or an password (Ex: mlds))
