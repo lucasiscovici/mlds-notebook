@@ -1,0 +1,1 @@
+exit $(./volumes.sh --format="{{.Name}}" | grep -q "$1")

@@ -1,5 +1,5 @@
-if [[ $# -ne 1 ]]; then
+if [[ $# -lt 1 ]]; then
 	 echo "Usage: ./rmVolume.sh"
 else 
-	 docker volume rm $1
+	 docker volume rm $@
 fi
