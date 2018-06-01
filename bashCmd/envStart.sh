@@ -14,6 +14,7 @@ else
 		if ./_check.sh "$1"; then
 			curr="*"
 		fi
+		alias _exit=exit
 		alias _docker=docker
 		export PATH="$(pwd):$PATH";
 		export OLD_PS1="SETTED";
