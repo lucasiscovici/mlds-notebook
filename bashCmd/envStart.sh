@@ -18,6 +18,6 @@ else
 		export OLD_PS1="SETTED";
 		export PS1="MLDS-NB-C-CURR->$1$curr):\W\$ " ;
 		export MLDS_C_CURR="$1" ;
-bash --rcfile <(echo "function exit(){ ./exit.sh };function check(){ export PS1=\"MLDS-NB-C-CURR->$MLDS_C_CURR\$(./_check.sh $MLDS_C_CURR && echo '*')):\W$ \"; }; trap 'check' USR1; echo -e \"For Stop The Env\n\t$ exit\";export pidMldsBase=\$$")
+bash --rcfile <(echo "function exit(){ ./exit.sh };function check(){ export PS1=\"MLDS-NB-C-CURR->$MLDS_C_CURR\$(./_check.sh $MLDS_C_CURR && echo '*')):\W$ \"; }; trap 'check' USR1; echo -e \"For Stop The Env\n\t$ exit\";export pidMldsBase=\$$") || echo "MLDS Env \"$1\" Stopped"
 	fi
 fi
