@@ -33,13 +33,13 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
     
 ## With Volumes
 
-### Persist Added Packages ( R, Julia, python3(pip), apt-get(bin))
+### En Debats:  Persist Added Packages ( R, Julia, python3(pip), apt-get(bin))
 
-    -v custom:/home/mlds/.custom
+    En Debats:  -v custom:/home/mlds/.custom
 (create volume custom if not exist, in make cmd is the parameter 'custom')
 ### Persist Work
-    -v $PWD/workXXX:/home/mlds/work
-(workXXX your directory with your work, in make cmd is the parameter 'work')
+    -v workXXX:/home/mlds/work
+(create volume workXXX if not exist, or the path to your directory with your work, in make cmd is the parameter 'work', don't forget '$(pwd)/workXXX' if path)
 
 ## Ports
     -p 8888:8888 -p 6006:6006
@@ -61,7 +61,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
 
 ## Run with all options
 
-    docker run --rm -d -v custom:/home/mlds/.custom -v $PWD/work/:/home/mlds/work -p 8888:8888 -p 6006:6006 luluisco/mlds-notebook start-notebook.sh --NotebookApp.token="mlds"
+    docker run -d -v $PWD/work/:/home/mlds/work -p 8888:8888 -p 6006:6006 luluisco/mlds-notebook start-notebook.sh --NotebookApp.token="mlds"
 # Container Infos
 - Default User is **jovyan** 
     - have **root permission**
@@ -69,7 +69,7 @@ based on **jupyter** & **luissalgadofreire/h2o-pysparkling** docker images
         - sudo works without password (share environment variable PATH with root automatically)
         - sudo -i for root shell 
 - **/home/mlds** is a *symbolic link* to **/home/jovyan**
-- **/home/mlds/.custom** (or /home/jovyan/.custom) contains **all future packages** added in a container
+- PB(en debat, prefere docker commit) -> :  **/home/mlds/.custom** (or /home/jovyan/.custom) contains **all future packages** added in a container
     - python (pip install **--user**)
     - R (install.packages)
     - julia (Pkg.add)
@@ -116,16 +116,16 @@ Put the directory "bashCmd" in the root of your project
    - run_rm=--rm 
        - remote container after die
     ### Volumes
-     - custom=      
-         - is empty
-         - if set create volume for /home/mlds/.custom
-         - could be an volume name or path (think to set with long path "$PWD/customXXX")
+     - *custom=* en debat      
+         - *is empty*
+         - *if set create volume for /home/mlds/.custom*
+         - *could be an volume name or path (think to set with long path "$PWD/customXXX")*
      - work=../work    
          - if set create volume for /home/mlds/work
          - path to work #TODO POSSIBILITY SET VOLUME
        - **INTERNAL**
           - home=/home/mlds/ #internal
-          - home_custom=.custom #internal
+          - *home_custom=.custom #internal* en debat
           - home_work=work #internal
      ### Ports
      -  #### Jupyter notebook

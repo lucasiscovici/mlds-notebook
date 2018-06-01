@@ -268,7 +268,7 @@ RUN echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo 'alias _sudo="/usr/bin/sudo"' >> /home/$NB_USER/.bashrc
 RUN echo 'alias sudo="sudo -s PATH=\$PATH"' >> /home/$NB_USER/.bashrc
 
-EXPOSE 8080 7077 8888 8081 4040 7001-7006 54321-54331 4040-4050 6066 6006 3000-3010 5050 5051 8088 8025 8030 8141 45454 8042 10200 8188 8190 19888 21000-24000 30000-34000 8787
+EXPOSE 7077 8000-9080 4040 7001-7006 54321-54331 4040-4050 6066 6006 3000-3010 5050 5051 45454 8042 10200  19888 21000-24000 30000-34000 
 USER $NB_UID
 ENV PYSPARK_PYTHON="$CONDA_DIR/bin/python"
 #USER root
@@ -290,3 +290,4 @@ RUN mkdir ~/.customs/
 RUN mkdir ~/.tmp/
 ENV CUSTOM_DIR="$HOME/.customs"
 ENV PATH="/usr/local/bin_base:$CUSTOM_DIR/bin:/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
+RUN echo 'alias _apt-get="/usr/bin/apt-get"' >> /home/$NB_USER/.bashrc

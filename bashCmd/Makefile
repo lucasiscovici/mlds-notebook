@@ -11,7 +11,7 @@ home_custom ?= .customs
 home_work ?= work
 k := $(strip $(PWD))
 j = $(shell [[ -z "${custom}" ]] || echo "-v \"${custom}:${home}${home_custom}\"")
-jj = $(shell [[ -z "${work}" ]] || echo "-v \"$(k)/$(work):${home}${home_work}\"")
+jj = $(shell [[ -z "${work}" ]] || echo "-v \"${work}:${home}${home_work}\"")
 jname = $(shell [[ -z "${name}" ]] || echo "--name \"${name}\"")
 portNb ?= 8888
 portTensorBoard ?= 6006
@@ -105,7 +105,7 @@ i=$$(($$g+${portSparkContextENbX})) && \
 l=$$(($$c+${portH2oNbX})) && \
 	 test -z $$getP  && echo "Error ------ getP"  || (\
 	((test ${printCommand} = "yes" && test "${quiet}" = "no" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}${latest}" ${cmd}' || true ) && \
-	docker run ${jname} "${debug}" "${run_rm}"  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  &&  ./kill.sh ${ppidj})  \
+	docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}${latest}"  ${cmd}  &&  ./kill.sh ${ppidj})  \
 	fi 
 define PB
 	echo "PB"
