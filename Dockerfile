@@ -233,8 +233,7 @@ RUN mkdir $CUSTOM_DIR
 #ENV PIPI=$PIP_TARGET
 ENV PIPO_TARGET=$CUSTOM_DIR/python
 RUN mkdir $PIPO_TARGET
-ENV PYTHONUSERBASE=$PIPO_TARGET
-ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
+
 
 #r custom
 RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' >/home/$NB_USER/.Rprofile
@@ -242,14 +241,12 @@ RUN mkdir $CUSTOM_DIR/R
 RUN Rscript -e "install.packages('h2o')"
 RUN Rscript -e "install.packages('sparklyr')"
 RUN Rscript -e "install.packages('rsparkling')"
-ENV R_LIBS_USER=$CUSTOM_DIR/R:$R_LIBS_USER
 
 #julia custom
 RUN mkdir -p $CUSTOM_DIR/julia
 #RUN ln -s $CUSTOM_DIR/julia/v0.6/REQUIRE $JULIA_PKGDIR/v0.6 
 
 ENV JULIA_LOAD_PATH=$JULIA_PKGDIR/v0.6
-ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
 ENV PYSPARK_PYTHON='$CONDA_DIR/bin/python'
 # RUN julia -e 'Pkg.init()'
 
@@ -289,5 +286,10 @@ RUN chmod -R 777 ~/.custom/
 RUN mkdir ~/.customs/
 RUN mkdir ~/.tmp/
 ENV CUSTOM_DIR="$HOME/.customs"
+ENV R_LIBS_USER=$CUSTOM_DIR/R:$R_LIBS_USER
+ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
+ENV PIPO_TARGET=$CUSTOM_DIR/python
+ENV PYTHONUSERBASE=$PIPO_TARGET
+ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
 ENV PATH="/usr/local/bin_base:$CUSTOM_DIR/bin:/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
 RUN echo 'alias _apt-get="/usr/bin/apt-get"' >> /home/$NB_USER/.bashrc
