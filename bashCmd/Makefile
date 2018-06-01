@@ -1,6 +1,7 @@
 .ONESHELL:
+k := $(strip $(PWD))
 custom ?= 
-work ?= ../work
+work ?= $k/../work
 name ?= $(strip $(shell [[ -n "$$MLDS_C_CURR" ]]  && echo "$$MLDS_C_CURR"))
 latest ?= :latest
 image ?= luluisco/mlds-notebook
@@ -9,7 +10,6 @@ getP=
 home ?= /home/mlds/
 home_custom ?= .customs
 home_work ?= work
-k := $(strip $(PWD))
 j = $(shell [[ -z "${custom}" ]] || echo "-v \"${custom}:${home}${home_custom}\"")
 jj = $(shell [[ -z "${work}" ]] || echo "-v \"${work}:${home}${home_work}\"")
 jname = $(shell [[ -z "${name}" ]] || echo "--name \"${name}\"")
