@@ -1,1 +1,1 @@
-docker ps $@
+_docker ps $@

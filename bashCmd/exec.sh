@@ -6,9 +6,9 @@ function _exec(){
 		# echo -e "PB $1 existe\n"
 		# echo -e docker exec $3 "$1" bash -c "$2"
 		if [[ -z $3 ]]; then
-			docker exec "$1" bash -c "$2"
+			_docker exec "$1" bash -c "$2"
 		else 
-			docker exec $3 "$1" bash -c "$2"
+			_docker exec $3 "$1" bash -c "$2"
 		fi
 	fi
 }

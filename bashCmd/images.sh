@@ -1,1 +1,1 @@
-docker image ls $@
+_docker image ls $@

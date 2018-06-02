@@ -20,7 +20,7 @@ else
 		echo "Check Conf OK ..."
 		if ! ./_checkImg.sh "alpine"; then
 				echo -e "\tDownload image for conf..."
-				docker pull alpine >/dev/null
+				_docker pull alpine >/dev/null
 		fi
 		voln=$1
 		# if [[ $# - 1 ]]; then
@@ -29,9 +29,9 @@ else
 			( ./createVolume.sh "$f" >/dev/null 2>&1  && \
 			echo "CREATED VOL Name: $f"  && \
 			echo "CP VOL $voln to $f"  && \
-			docker run -d --rm --name $f -v $voln:/$voln -v $f:/$f alpine sh -c "cp -R /$voln/* /$f/" >/dev/null 2>&1   && \
+			_docker run -d --rm --name $f -v $voln:/$voln -v $f:/$f alpine sh -c "cp -R /$voln/* /$f/" >/dev/null 2>&1   && \
 			echo "OK" ) || \ 
-			 ( echo "DELETE VOL" && ./rmVolume.sh "$f"  && docker stop $f >/dev/null ) >/dev/null 2>&1 
+			 ( echo "DELETE VOL" && ./rmVolume.sh "$f"  && _docker stop $f >/dev/null ) >/dev/null 2>&1 
 		# else
 
 		# fi

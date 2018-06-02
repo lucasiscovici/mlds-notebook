@@ -6,5 +6,5 @@ else
 	shift
 	shift
 	opts=$@
-	docker run -it --rm -v $vol:/vol alpine ls ${opts} /vol$path
+	_docker run -it --rm -v $vol:/vol alpine ls ${opts} /vol$path
 fi

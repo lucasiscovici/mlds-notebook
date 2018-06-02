@@ -1,3 +1,2 @@
 #!/bin/bash
-
 echo "il n'y plus docker ici, enfin si, mais l'environnement ne marchera plus bien du coup... (_docker ;)) "

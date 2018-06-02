@@ -14,6 +14,7 @@ else
 		if ./_check.sh "$1"; then
 			curr="*"
 		fi
+		rm .tmpexit &>/dev/null
 		shopt -s expand_aliases
 		alias _exit="builtin exit"
 		alias _docker="docker"

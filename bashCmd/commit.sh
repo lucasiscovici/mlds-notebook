@@ -20,9 +20,9 @@ if [[ $# -eq 1 ]]; then
 fi
 nameX="$name"
 i=0
-while _checkImg "$nameX"; then
+while _checkImg "$nameX"; do
 	i=$(($i+1))
 	nameX=$name"_$i"
-fi
+done
 echo "name of image $nameX"
-docker commit "$MLDS_C_CURR" "$name"
+_docker commit "$MLDS_C_CURR" "$name"
