@@ -1,1 +1,1 @@
-_dockerP "$@"
+"$_dockerP" "$@"

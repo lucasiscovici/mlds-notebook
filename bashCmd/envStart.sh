@@ -23,6 +23,6 @@ else
 		export OLD_PS1="SETTED";
 		export PS1="MLDS-NB-C-CURR->$1$curr):\W\$ " ;
 		export MLDS_C_CURR="$1" ;
-bash --rcfile <(echo "trap \"./_gb.sh\" exit;shopt -s expand_aliases;alias exit=\"./_exit.sh && _exit\";alias _exit=\"builtin exit\"; function _docker(){ "$_dockerP" \$@;};export -f _docker;function exit(){ ./_exit.sh 0; };function check(){ export PS1=\"MLDS-NB-C-CURR->$MLDS_C_CURR\$(./_check.sh $MLDS_C_CURR && echo '*')):\W$ \"; }; trap 'check' USR1; echo -e \"For Stop The Env\n\t$ exit\";export pidMldsBase=\$$;") || echo "MLDS Env \"$1\" Stopped"
+bash --rcfile <(echo "trap \"./_gb.sh\" exit;shopt -s expand_aliases;alias exit=\"./_exit.sh && _exit\";alias _exit=\"builtin exit\"; function _docker(){ "$_dockerP" \$@;};export -f _docker;function exit(){ ./_exit.sh 0; };function check(){ export PS1=\"MLDS-NB-C-CURR->$MLDS_C_CURR\$(./_check.sh $MLDS_C_CURR && echo '*')):\W$ \"; }; trap 'check' USR1; echo -e \"For Stop The Env\n\t$ exit\";export pidMldsBase=\$$;") || ./_gb.sh
 	fi
 fi
