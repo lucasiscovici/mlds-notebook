@@ -1,8 +1,8 @@
 .ONESHELL:
 k := $(strip $(PWD))
-custom ?= 
 work ?= $k/../work
 name ?= $(strip $(shell [[ -n "$$MLDS_C_CURR" ]]  && echo "$$MLDS_C_CURR"))
+custom ?= "custom_${name}"
 latest ?= :latest
 image ?= luluisco/mlds-notebook
 cmd ?= mlds.sh
