@@ -93,7 +93,7 @@ define shell-functions
 endef
 
 # Generate the file with function declarations for the shell
-$(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh)
+$(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh && chmod 777  .functions.sh)
 
 SHELL := /bin/bash --init-file .functions.sh -i
 
