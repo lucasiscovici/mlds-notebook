@@ -20,7 +20,7 @@ if [[ $# -lt 3 ]]; then
 			if [[ -z $MLDS_C_CURR ]]; then
 				echo -e "exec.sh container_ID CMD [-ti]"
 			else
-			   _exec "$MLDS_C_CURR" "stty rows 100;$1" "-ti"
+			   _exec "$MLDS_C_CURR" "$1" "-ti"
 			fi
 		else
 			  _exec "$1" "$2" " "
