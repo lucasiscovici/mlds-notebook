@@ -2,10 +2,16 @@
 
 
 sl="$1"
+
+if [[ -z "$sl" && -f "../.mldsEnv" ]]; then
+		sl=$(cat ../.mldsEnv)
+fi
 if [[ -z "$sl" ]]; then
 	if [[ -n "$OLD_PS1" ]]; then
 		echo -e "For Stop The Env\n$ exit"
+		exit
 	fi
+
 
 else  
 	if [[ -n "$OLD_PS1" ]]; then
