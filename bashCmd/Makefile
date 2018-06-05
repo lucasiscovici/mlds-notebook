@@ -1,4 +1,19 @@
-.ONESHELL:
+define shell-functions
+: BEGIN
+  # Shell syntax here
+  show()
+  {
+    bash -c "echo '$1'"
+  }
+
+: END
+endef
+
+# Generate the file with function declarations for the shell
+$(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh && chmod 777  .functions.sh)
+
+SHELL := /bin/bash --init-file .functions.sh -i
+
 k := $(strip $(PWD))
 work ?= $k/../work
 name ?= $(strip $(shell [[ -n "$$MLDS_C_CURR" ]]  && echo "$$MLDS_C_CURR"))
@@ -81,21 +96,6 @@ g=
 h=
 i=
 l=
-define shell-functions
-: BEGIN
-  # Shell syntax here
-  show()
-  {
-    bash -c "echo '$1'"
-  }
-
-: END
-endef
-
-# Generate the file with function declarations for the shell
-$(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh && chmod 777  .functions.sh)
-
-SHELL := /bin/bash --init-file .functions.sh -i
 
 help:
 	# @echo "${ppidj}"
