@@ -6,7 +6,8 @@ if [[ -n "$OLD_PS1" ]]; then
 			
 		# fi
 		echo "COMMIT...."
-		./commit.sh $(./myEnv.sh getEnvIm) -f
+		./commit.sh $(./myEnv.sh getEnvIm) -f &>/dev/null
+		echo "OK"
 		# ./_changeEnv.sh BASED_ON 
 	fi
 fi

@@ -293,6 +293,6 @@ USER $NB_UID
 # ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
 ENV PATH="/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
 # RUN echo 'alias _apt-get="/usr/bin/apt-get"' >> /home/$NB_USER/.bashrc
-RUN echo 'stty rows 30' >> /home/$NB_USER/.bashrc
-RUN echo 'stty cols 100' >> /home/$NB_USER/.bashrc
+RUN echo 'stty rows $LINES' >> /home/$NB_USER/.bashrc
+RUN echo 'stty cols $COLUMNS' >> /home/$NB_USER/.bashrc
 # ENV PYTHON="$PYTHONUSERBASE" 
