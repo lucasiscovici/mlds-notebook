@@ -14,16 +14,19 @@ if [[ -z "$OLD_PS1" ]]; then
 fi
 
 if [[ $# -ge 1 ]]; then
-	if [[ $ifl =="-f" ]]; then
+	if [[ $ifl == "-f" ]]; then
 		_docker tag $name "tmp$name"
 		_docker rmi $name
 	else
 		name="$1"
 		ifl="$2"
-		if _checkImg "$name"; then
-			if [[ $ifl =="-f" ]]; then
-				_docker tag $name "tmp$name"
-				_docker rmi $name
+		if ./_checkImg.sh "$name"; then
+			if [[ $ifl == "-f" ]]; then
+				_docker tag $name "tmp$name" &>/dev/null
+				_docker rmi $name &>/dev/null
+				_docker commit "$MLDS_C_CURR" "$name" &>/dev/null
+				_docker rmi "tmp$name" &>/dev/null
+				exit
 			else
 				echo "Name if image aleady exist"
 				exit
@@ -33,13 +36,9 @@ if [[ $# -ge 1 ]]; then
 fi
 nameX="$name"
 i=0
-while _checkImg "$nameX"; do
+while ./_checkImg.sh "$nameX"; do
 	i=$(($i+1))
 	nameX=$name"_$i"
 done
 echo "name of image $nameX"
-_docker commit "$MLDS_C_CURR" "$name"
-
-if [[ $ifl == "-f" ]]; then
-	docker rmi "tmp$name"
-fi
+_docker commit "$MLDS_C_CURR" "$nameX"
