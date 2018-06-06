@@ -9,10 +9,13 @@ if [[ -n "$OLD_PS1" ]]; then
 	elif [[ $# -ge 1 ]]; then
 		if [[ $1 == "YES" || $1 == "NO"]]; then
 			#statements
-		
-		sed -E -i '' "s/^(AU:).*$/\1$1/" ../.mldsEnv
-	else
-		echo "bad second arg"
-	fi
+		./_changeEnv.sh "AU" $1
+		else
+			# if [[ $1 == "change" ]]; then
+			# 	#statements
+			# else 
+				echo "bad second arg"
+			# fi
+		fi
 	fi
 fi
