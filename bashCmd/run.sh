@@ -1,6 +1,6 @@
 if [[ -n "$OLD_PS1" ]]; then
 	#statements
-dkg="$(./configImgRun.sh)"
+dkg="$(./confImgRun.sh)"
 # echo "DEBUG $dkd"
 pdof=\"$(cat ../.mldsEnv | sed -En "/^__.*/p" | sed -En "s/__(.*)/\1/p" | tr ':' '=' | tr '\n' ' ')\"
 
