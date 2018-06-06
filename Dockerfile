@@ -226,27 +226,27 @@ RUN pip install markdown-kernel
 #USER root
 USER $NB_UID
 #python custom
-ENV CUSTOM_DIR="$HOME/.custom"
+# ENV CUSTOM_DIR="$HOME/.custom"
 
 # VOLUME $CUSTOM_DIR
-RUN mkdir $CUSTOM_DIR
+# RUN mkdir $CUSTOM_DIR
 #ENV PIPI=$PIP_TARGET
-ENV PIPO_TARGET=$CUSTOM_DIR/python
-RUN mkdir $PIPO_TARGET
+# ENV PIPO_TARGET=$CUSTOM_DIR/python
+# RUN mkdir $PIPO_TARGET
 
 
 #r custom
 RUN echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' >/home/$NB_USER/.Rprofile
-RUN mkdir $CUSTOM_DIR/R
+# RUN mkdir $CUSTOM_DIR/R
 RUN Rscript -e "install.packages('h2o')"
 RUN Rscript -e "install.packages('sparklyr')"
 RUN Rscript -e "install.packages('rsparkling')"
 
 #julia custom
-RUN mkdir -p $CUSTOM_DIR/julia
+# RUN mkdir -p $CUSTOM_DIR/julia
 #RUN ln -s $CUSTOM_DIR/julia/v0.6/REQUIRE $JULIA_PKGDIR/v0.6 
 
-ENV JULIA_LOAD_PATH=$JULIA_PKGDIR/v0.6
+# ENV JULIA_LOAD_PATH=$JULIA_PKGDIR/v0.6
 ENV PYSPARK_PYTHON='$CONDA_DIR/bin/python'
 # RUN julia -e 'Pkg.init()'
 
@@ -271,27 +271,28 @@ ENV PYSPARK_PYTHON="$CONDA_DIR/bin/python"
 #USER root
 #RUN mv /usr/local/bin /usr/local/bin_base
 #RUN ln -s /usr/local/bin $CUSTOM_DIR/bin
-RUN mkdir -p $CUSTOM_DIR/bin 
+# RUN mkdir -p $CUSTOM_DIR/bin 
 # RUN rm -rf /usr/local/bin/$NB_USER_CUSTOM.sh
 COPY $NB_USER_CUSTOM.sh /usr/local/bin
 USER root
 RUN chmod a+x /usr/local/bin/$NB_USER_CUSTOM.sh
-RUN mkdir -p /srv/deb/var/lib /usr/local/bin_base && cp -R /var/lib/dpkg /srv/deb/var/lib
-RUN mkdir -p /srv/tmp
+# RUN mkdir -p /srv/deb/var/lib /usr/local/bin_base && cp -R /var/lib/dpkg /srv/deb/var/lib
+# RUN mkdir -p /srv/tmp
 USER $NB_UID
-COPY cmd/apt-get /usr/local/bin_base/
-RUN sudo chmod -R 777 /usr/local/bin_base/
-RUN sudo chown $NB_USER:users /usr/local/bin_base/apt-get
-RUN chmod -R 777 ~/.custom/
-RUN mkdir ~/.customs/
-RUN mkdir ~/.tmp/
-ENV CUSTOM_DIR="$HOME/.customs"
-ENV R_LIBS_USER=$CUSTOM_DIR/R:$R_LIBS_USER
-ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
-ENV PIPO_TARGET=$CUSTOM_DIR/python
-ENV PYTHONUSERBASE=$PIPO_TARGET
-ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
-ENV PATH="/usr/local/bin_base:$CUSTOM_DIR/bin:/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
-RUN echo 'alias _apt-get="/usr/bin/apt-get"' >> /home/$NB_USER/.bashrc
+# COPY cmd/apt-get /usr/local/bin_base/
+# RUN sudo chmod -R 777 /usr/local/bin_base/
+# RUN sudo chown $NB_USER:users /usr/local/bin_base/apt-get
+# RUN chmod -R 777 ~/.custom/
+# RUN mkdir ~/.customs/
+# RUN mkdir ~/.tmp/
+# ENV CUSTOM_DIR="$HOME/.customs"
+# ENV R_LIBS_USER=$CUSTOM_DIR/R:$R_LIBS_USER
+# ENV JULIA_PKGDIR=$CUSTOM_DIR/julia
+# ENV PIPO_TARGET=$CUSTOM_DIR/python
+# ENV PYTHONUSERBASE=$PIPO_TARGET
+# ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
+ENV PATH="/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
+# RUN echo 'alias _apt-get="/usr/bin/apt-get"' >> /home/$NB_USER/.bashrc
 RUN echo 'stty rows 200' >> /home/$NB_USER/.bashrc
-
+RUN echo 'stty cols 200' >> /home/$NB_USER/.bashrc
+# ENV PYTHON="$PYTHONUSERBASE" 
