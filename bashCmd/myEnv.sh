@@ -8,7 +8,20 @@ function 	getEnvIm(){
 	echo "mlds_"$(echo $me | tr A-Z a-z)"_env"
 }
 
-function checkImExist(){
+function getIm(){
 	sfm="$(getEnvIm)"
-	return [[ -n ./images.sh --format="{{.Repository}}" --filter=reference='mlds_$sfm_env' ]]
+	echo ./images.sh  --filter=reference='$sfm'
+	#--format="{{.Repository}}"
 }
+function checkImExist(){
+	return [[ -n $(getIm) ]]
+}
+
+if [[ $1 == "checkImExist" ]]; then
+	#statements
+	exit checkImExist
+elif [[ $1 =="getEnvIm" ]]; then
+	echo $(getEnvIm)
+elif [[ $1 =="getIm" ]]; then
+	echo $(getIm)
+fi

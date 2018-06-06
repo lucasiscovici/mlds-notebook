@@ -3,8 +3,8 @@
 
 sl="$1"
 
-if [[ -z "$sl" && -f "../.mldsEnv" ]]; then
-		sl=$(cat ../.mldsEnv)
+if [[ -z "$sl" && -f "../.mldsEnv" && -n $(sed -En "s/^NAME:(.*)$/\1/p" ../.mldsEnv | sed "/^$/d") ]]; then
+		sl=$(sed -En "s/^NAME:(.*)$/\1/p" ../.mldsEnv | sed "/^$/d")
 fi
 if [[ -z "$sl" ]]; then
 	if [[ -n "$OLD_PS1" ]]; then

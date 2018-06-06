@@ -1,8 +1,9 @@
 #!/bin/bash
 name=$MLDS_C_CURR
-commit
-commit caca
-commit image_name mon_container
+ifl="$1"
+# commit
+# commit caca
+# commit image_name mon_container
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 	echo "USAGE: commit.sh [image_name]'"
@@ -11,11 +12,23 @@ if [[ -z "$OLD_PS1" ]]; then
 	echo -e "MLDS Env Obligatory !!\n\t$ ./envStart name"
 	exit
 fi
-if [[ $# -eq 1 ]]; then
-	name="$1"
-	if _checkImg "$name"; then
-		echo "Name if image aleady exist"
-		exit
+
+if [[ $# -ge 1 ]]; then
+	if [[ $ifl =="-f" ]]; then
+		_docker tag $name "tmp$name"
+		_docker rmi $name
+	else
+		name="$1"
+		ifl="$2"
+		if _checkImg "$name"; then
+			if [[ $ifl =="-f" ]]; then
+				_docker tag $name "tmp$name"
+				_docker rmi $name
+			else
+				echo "Name if image aleady exist"
+				exit
+			fi
+		fi
 	fi
 fi
 nameX="$name"
@@ -26,3 +39,7 @@ while _checkImg "$nameX"; do
 done
 echo "name of image $nameX"
 _docker commit "$MLDS_C_CURR" "$name"
+
+if [[ $ifl == "-f" ]]; then
+	docker rmi "tmp$name"
+fi
