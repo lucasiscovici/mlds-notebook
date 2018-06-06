@@ -20,8 +20,8 @@ function checkImExist(){
 if [[ $1 == "checkImExist" ]]; then
 	#statements
 	exit checkImExist
-elif [[ $1 =="getEnvIm" ]]; then
+elif [[ $1 == "getEnvIm" ]]; then
 	echo $(getEnvIm)
-elif [[ $1 =="getIm" ]]; then
+elif [[ $1 == "getIm" ]]; then
 	echo $(getIm)
 fi
