@@ -6,5 +6,6 @@ if [[ -n "$OLD_PS1" ]]; then
 			
 		# fi
 		./commit.sh $(./myEnv.sh getEnvIm) -f
+		# ./_changeEnv.sh BASED_ON 
 	fi
 fi

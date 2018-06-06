@@ -10,24 +10,35 @@ function 	getEnvIm(){
 
 function getIm(){
 	sfm="$(getEnvIm)"
-	if  $(./images.sh  -q --filter=reference='$sfm'); then
-		echo -n
+	if [[ -z $(./images.sh  -q --filter=reference=$sfm) ]]; then
 			exit
 	fi
-	echo $(./images.sh  --filter=reference='$sfm')
+	echo $(./images.sh  --filter=reference=$sfm $@)
 	#--format="{{.Repository}}"	
+}
+function getVol(){
+	./volumes.sh --filter=name=$(./myEnv.sh getEnvVol) $@
 }
 function checkImExist(){
 	return [[ -n $(getIm) ]]
 }
-
-if [[ $1 == "checkImExist" ]]; then
+ks="$1"
+shift
+if [[ $ks == "checkImExist" ]]; then
 	#statements
 	exit checkImExist
-elif [[ $1 == "getEnvIm" ]]; then
-	getEnvIm
-elif [[ $1 == "getIm" ]]; then
-	getIm
-elif [[ $1 == "getEnvVol" ]]; then
+elif [[ $ks == "getEnvIm" ]]; then
+	getEnvIm $@
+elif [[ $ks == "getIm" ]]; then
+	getIm $@
+elif [[ $ks == "getEnvVol" ]]; then
 	echo "custom_$MLDS_C_CURR"
+elif [[ $ks == "getVol" ]]; then
+	getVol $@
+elif [[ $ks == "getAll" ]];then
+	echo IMAGE:$(getIm) 
+	echo Vol:$(getVol)
+
 fi
+
+# ./volumes.sh --format='{{.Name}}' --filter=name=$(./myEnv.sh getEnvVol)

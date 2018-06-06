@@ -1,6 +1,6 @@
 #!/bin/bash
 function getAC(){
-	echo $(sed -En "s/^AC:(.*)$/\1/p" ../.mldsEnv | sed "/^$/d")
+	echo $(./_getEnv.sh "AC")
 }
 if [[ -n "$OLD_PS1" ]]; then
 	ed=$(getAC)

@@ -1,7 +1,7 @@
 if [[ -n "$OLD_PS1" ]]; then
 	#statements
-
-make mlds $@
+dkd=[[ -z $(./_getEnv.sh "BASED") ]] && echo -n "" || echo image=(./_getEnv.sh "BASED") latest=
+make mlds $dkd $@
 
 else
 
