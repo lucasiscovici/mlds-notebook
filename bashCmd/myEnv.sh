@@ -10,8 +10,9 @@ function 	getEnvIm(){
 
 function getIm(){
 	sfm="$(getEnvIm)"
-	if [[ -z $(./images.sh  -q --filter=reference='$sfm') ]]; then
-		exit
+	if  $(./images.sh  -q --filter=reference='$sfm'); then
+		echo -n
+			exit
 	fi
 	echo $(./images.sh  --filter=reference='$sfm')
 	#--format="{{.Repository}}"	
@@ -24,7 +25,9 @@ if [[ $1 == "checkImExist" ]]; then
 	#statements
 	exit checkImExist
 elif [[ $1 == "getEnvIm" ]]; then
-	echo $(getEnvIm)
+	getEnvIm
 elif [[ $1 == "getIm" ]]; then
-	echo $(getIm)
+	getIm
+elif [[ $1 == "getEnvVol" ]]; then
+	echo "custom_$MLDS_C_CURR"
 fi
