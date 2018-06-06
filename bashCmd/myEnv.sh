@@ -10,7 +10,7 @@ function 	getEnvIm(){
 
 function getIm(){
 	sfm="$(getEnvIm)"
-	echo ./images.sh  --filter=reference='$sfm'
+	echo $(./images.sh  --filter=reference='$sfm')
 	#--format="{{.Repository}}"
 }
 function checkImExist(){
