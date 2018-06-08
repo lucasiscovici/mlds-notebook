@@ -39,6 +39,8 @@ elif [[ $ks == "getAll" ]];then
 	echo IMAGE:$(getIm) 
 	echo Vol:$(getVol)
 
+else
+	echo "checkImExist getEnvIm getIm getEnvVol getVol getAll"
 fi
 
 # ./volumes.sh --format='{{.Name}}' --filter=name=$(./myEnv.sh getEnvVol)

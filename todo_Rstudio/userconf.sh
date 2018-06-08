@@ -1,8 +1,8 @@
 #!/usr/bin/with-contenv bash
 
 ## Set defaults for environmental variables in case they are undefined
-USER=${USER:=rstudio}
-PASSWORD=${PASSWORD:=rstudio}
+USER=${USER:=mlds}
+PASSWORD=${PASSWORD:=mlds}
 USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}

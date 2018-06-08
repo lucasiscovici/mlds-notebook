@@ -293,14 +293,17 @@ USER $NB_UID
 # ENV PYTHONPATH=$PIPO_TARGET:$PYTHONPATH
 ENV PATH="/home/$NB_USER/sparkling-water-2.3.5/bin:${PATH}"
 # RUN echo 'alias _apt-get="/usr/bin/apt-get"' >> /home/$NB_USER/.bashrc
-RUN echo 'stty rows $LINES' >> /home/$NB_USER/.bashrc
-RUN echo 'stty cols $COLUMNS' >> /home/$NB_USER/.bashrc
+RUN echo "stty rows 24" >> /home/$NB_USER/.bashrc
+RUN echo "stty cols 100" >> /home/$NB_USER/.bashrc
 
 
 # ENV PYTHON="$PYTHONUSERBASE" 
-
+RUN pip install rpy2
+ENV R_HOME="$CONDA_DIR/lib/R"
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
+USER root
+RUN conda install -c r r-essentials 
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
@@ -343,16 +346,16 @@ RUN apt-get update \
     \n# where this Docker container is running. \
     \nif(is.na(Sys.getenv("HTTR_LOCALHOST", unset=NA))) { \
     \n  options(httr_oob_default = TRUE) \
-    \n}' >> /usr/local/lib/R/etc/Rprofile.site \
-  && echo "PATH=${PATH}" >> /usr/local/lib/R/etc/Renviron \
+    \n}' >> $R_HOME/etc/Rprofile.site \
+  && echo "PATH=${PATH}" >> $R_HOME/etc/Renviron \
   ## Need to configure non-root user for RStudio
-  && useradd rstudio \
-  && echo "rstudio:rstudio" | chpasswd \
-    && mkdir /home/rstudio \
-    && chown rstudio:rstudio /home/rstudio \
-    && addgroup rstudio staff \
+  # && useradd rstudio \
+  # && echo "rstudio:rstudio" | chpasswd \
+  #   && mkdir /home/rstudio \
+  #   && chown rstudio:rstudio /home/rstudio \
+  #   && addgroup rstudio staff \
   ## Prevent rstudio from deciding to use /usr/bin/R if a user apt-get installs a package
-  &&  echo 'rsession-which-r=/usr/local/bin/R' >> /etc/rstudio/rserver.conf \
+  &&  echo "rsession-which-r=$CONDA_DIR/bin/R" >> /etc/rstudio/rserver.conf \
   ## use more robust file locking to avoid errors when using shared volumes:
   && echo 'lock-type=advisory' >> /etc/rstudio/file-locks \ 
   ## configure git not to request password each time 
@@ -368,12 +371,12 @@ RUN apt-get update \
   && echo '#!/bin/bash \
           \n rstudio-server stop' \
           > /etc/services.d/rstudio/finish \ 
-  && mkdir -p /home/rstudio/.rstudio/monitored/user-settings \ 
+  && mkdir -p $HOME/.rstudio/monitored/user-settings \ 
   && echo 'alwaysSaveHistory="0" \ 
           \nloadRData="0" \
           \nsaveAction="0"' \ 
-          > /home/rstudio/.rstudio/monitored/user-settings/user-settings \ 
-  && chown -R rstudio:rstudio /home/rstudio/.rstudio
+          > $HOME/.rstudio/monitored/user-settings/user-settings \ 
+  && chown -R rstudio:rstudio $HOME/.rstudio
 
 COPY todo_Rstudio/userconf.sh /etc/cont-init.d/userconf
 
@@ -382,6 +385,9 @@ COPY todo_Rstudio/add_shiny.sh /etc/cont-init.d/add
 
 COPY todo_Rstudio/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
+
+# RUN sed -ir "s/stty rows/stty rows 24/" $HOME/.bashrc && sed -ir "s/stty cols/stty cols 100/" $HOME/.bashrc
+# RUN echo "stty cols $COLUMNS" >> /home/$NB_USER/.bashrc
 # EX8787POSE 
 
 ## automatically link a shared volume for kitematic users
