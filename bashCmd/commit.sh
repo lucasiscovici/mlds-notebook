@@ -12,7 +12,10 @@ if [[ -z "$OLD_PS1" ]]; then
 	echo -e "MLDS Env Obligatory !!\n\t$ ./envStart name"
 	exit
 fi
-
+if ! ./_check.sh $MLDS_C_CURR;then
+	echo "No Container is running ($MLDS_C_CURR)"
+	exit
+fi
 if [[ $# -ge 1 ]]; then
 	if [[ $ifl == "-f" ]]; then
 		_docker tag $name "tmp$name"
@@ -20,8 +23,7 @@ if [[ $# -ge 1 ]]; then
 	else
 		name="$1"
 		ifl="$2"
-		if ./_checkImg.sh "$name"; then
-			if [[ $ifl == "-f" ]]; then
+			if [[ ($(./_checkImg.sh "$name") && $ifl == "-f" )|| ! $(./_checkImg.sh "$name") ]]; then
 				_docker tag $name "tmp$name" &>/dev/null
 				_docker rmi $name &>/dev/null
 				_docker commit "$MLDS_C_CURR" "$name" &>/dev/null
@@ -31,14 +33,14 @@ if [[ $# -ge 1 ]]; then
 				echo "Name if image aleady exist"
 				exit
 			fi
-		fi
+		
 	fi
 fi
-nameX="$name"
-i=0
-while ./_checkImg.sh "$nameX"; do
-	i=$(($i+1))
-	nameX=$name"_$i"
-done
-echo "name of image $nameX"
-_docker commit "$MLDS_C_CURR" "$nameX"
+# nameX="$name"
+# i=0
+# while ./_checkImg.sh "$nameX"; do
+# 	i=$(($i+1))
+# 	nameX=$name"_$i"
+# done
+# echo "name of image $nameX"
+# _docker commit "$MLDS_C_CURR" "$nameX"
