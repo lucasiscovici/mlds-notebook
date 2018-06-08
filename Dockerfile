@@ -375,8 +375,8 @@ RUN apt-get update \
   && echo 'alwaysSaveHistory="0" \ 
           \nloadRData="0" \
           \nsaveAction="0"' \ 
-          > $HOME/.rstudio/monitored/user-settings/user-settings \ 
-  && chown -R rstudio:rstudio $HOME/.rstudio
+          > $HOME/.rstudio/monitored/user-settings/user-settings  
+  # && chown -R rstudio:rstudio $HOME/.rstudio
 
 COPY todo_Rstudio/userconf.sh /etc/cont-init.d/userconf
 
