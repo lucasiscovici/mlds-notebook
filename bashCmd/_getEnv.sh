@@ -9,7 +9,7 @@ if [[ $# -eq 1 ]]; then
 	fi
 else
 	if [[ -f  .mldsEnv ]]; then
-		echo ".mldsEnv:\n"
+		echo -e ".mldsEnv:\n"
 		cat .mldsEnv
 	else
 		echo "create .mldsEnv"
