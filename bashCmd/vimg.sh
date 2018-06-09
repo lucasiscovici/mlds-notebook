@@ -7,7 +7,7 @@ function cherche(){
 		if [[ -z $(_docker run -ti luluisco/mlds-notebook 'pip list --format freeze' | grep ^$2) ]];then
 			_docker run -ti luluisco/mlds-notebook 'pip install $@'
 		else
-			echo  "CD" > "./.tmp/com" 
+			echo  "CD" > ".tmp/com" 
 		fi
 	fi
 	
@@ -15,10 +15,10 @@ function cherche(){
 }
 while true; do
 	sleep 1
-	d=$(date -r ./.tmp/com +%s)
+	d=$(date -r .tmp/com +%s)
 	if [[ $d -gt $a ]]; then
 		a=$d
-		d=$(cat ./.tmp/com)
+		d=$(cat .tmp/com)
 		cmd=$(cut -f1 <<<$d)
 		ou=$(cut -f2 <<<$d)
 		quoi=$(cut -f3 <<<$d)
