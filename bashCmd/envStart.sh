@@ -11,13 +11,12 @@ oki="yes"
 fi
 if [[ $oki == "yes" && -n "$1" && $1 != "_"  ]]; then
 	ov="N"
-	echo -n "Overrite ? (N/y) "
-	read ov
-	if [[ $ov!="y" ]]; then
+	read -p "Overrite ? (N/y) " ov
+	if [[ "$ov" != "y" ]]; then
 		exit
 	fi
 	sl="$1"
-	$oki="no"
+	oki="no"
 fi
 if [[ -z "$sl" ]]; then
 	if [[ -n "$OLD_PS1" ]]; then
