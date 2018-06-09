@@ -15,7 +15,7 @@ $(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh && chmod 777  .
 SHELL := /bin/bash --init-file .functions.sh -i
 
 k := $(strip $(PWD))
-work ?= $k/../work
+work ?= $k/../home
 name ?= $(strip $(shell [[ -n "$$MLDS_C_CURR" ]]  && echo "$$MLDS_C_CURR"))
 custom ?= 
 image ?= luluisco/mlds-notebook:latest
@@ -23,7 +23,7 @@ cmd ?= mlds.sh
 getP=
 home ?= /home/mlds/
 home_custom ?= .customs
-home_work ?= work
+home_work ?= 
 j = $(shell [[ -z "${custom}" ]] || echo "-v \"${custom}:${home}${home_custom}\"")
 jj = $(shell [[ -z "${work}" ]] || echo "-v \"${work}:${home}${home_work}\"")
 jname = $(shell [[ -z "${name}" ]] || echo "--name \"${name}\"")

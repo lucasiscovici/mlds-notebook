@@ -5,7 +5,7 @@ dkd="$(./confImgRun.sh)"
 pdof=\"$(cat ../.mldsEnv | sed -En "/^__.*/p" | sed -En "s/__(.*)/\1/p"  | tr '\n' ' ')\"
 
 #echo make mlds $(echo $dkd | tr -d '"' ) $(echo $pdof | tr -d '"' )    $@
-make mlds $(echo $pdof | tr -d '"' ) $(echo $dkd | tr -d '"' )  $@
+make mlds $(echo $pdof | tr -d '"' ) $(echo $dkd | tr -d '"' )  "$@"
 
 else
 

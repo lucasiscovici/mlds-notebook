@@ -307,6 +307,10 @@ RUN conda install -c r r-essentials
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
+
+# RUN apt-get install -y  --no-install-recommends gdebi-core && \
+#     wget https://download2.rstudio.org/rstudio-server-1.1.453-i386.deb && \
+#     gdebi rstudio-server-1.1.453-i386.deb
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     file \
@@ -349,11 +353,6 @@ RUN apt-get update \
     \n}' >> $R_HOME/etc/Rprofile.site \
   && echo "PATH=${PATH}" >> $R_HOME/etc/Renviron \
   ## Need to configure non-root user for RStudio
-  # && useradd rstudio \
-  # && echo "rstudio:rstudio" | chpasswd \
-  #   && mkdir /home/rstudio \
-  #   && chown rstudio:rstudio /home/rstudio \
-  #   && addgroup rstudio staff \
   ## Prevent rstudio from deciding to use /usr/bin/R if a user apt-get installs a package
   &&  echo "rsession-which-r=$CONDA_DIR/bin/R" >> /etc/rstudio/rserver.conf \
   ## use more robust file locking to avoid errors when using shared volumes:
@@ -376,7 +375,7 @@ RUN apt-get update \
           \nloadRData="0" \
           \nsaveAction="0"' \ 
           > $HOME/.rstudio/monitored/user-settings/user-settings  
-  # && chown -R rstudio:rstudio $HOME/.rstudio
+#   # && chown -R rstudio:rstudio $HOME/.rstudio
 
 COPY todo_Rstudio/userconf.sh /etc/cont-init.d/userconf
 
@@ -385,12 +384,16 @@ COPY todo_Rstudio/add_shiny.sh /etc/cont-init.d/add
 
 COPY todo_Rstudio/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
-
+RUN chown -R jovyan:users $HOME/.rstudio
 # RUN sed -ir "s/stty rows/stty rows 24/" $HOME/.bashrc && sed -ir "s/stty cols/stty cols 100/" $HOME/.bashrc
 # RUN echo "stty cols $COLUMNS" >> /home/$NB_USER/.bashrc
 # EX8787POSE 
 
 ## automatically link a shared volume for kitematic users
 # VOLUME /home/rstudio/kitematic
-
-# CMD ["/init"]
+RUN bash -c 'cp /usr/lib/rstudio-server/www/templates/encrypted-sign-in.htm{,.old}' && rm -rf /usr/lib/rstudio-server/www/templates/encrypted-sign-in.htm
+COPY todo_Rstudio/encrypted-sign-in.htm /usr/lib/rstudio-server/www/templates/
+RUN echo "R_LIBS_USER=${R_LIBS_USER}" >> $R_HOME/etc/Renviron
+RUN conda install -c r r-base
+RUN apt-get -yqf install && apt-get update && apt-get install -yq --no-install-recommends libreadline-dev && pip install rpy2 --upgrade
+CMD ["mlds.sh"]

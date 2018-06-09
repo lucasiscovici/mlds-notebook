@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bash
 
 ## Set defaults for environmental variables in case they are undefined
-USER=${USER:=mlds}
+USER=${USER:=jovyan}
 PASSWORD=${PASSWORD:=mlds}
 USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
@@ -33,16 +33,17 @@ if [ "$USERID" -ne 1000 ]
     mkdir /home/$USER
     chown -R $USER /home/$USER
     usermod -a -G staff $USER
-elif [ "$USER" != "rstudio" ]
+elif [ "$USER" != "jovyan" ]
   then
     ## cannot move home folder when it's a shared volume, have to copy and change permissions instead
-    cp -r /home/rstudio /home/$USER
+    cp -r /home/jovyan /home/$USER
     ## RENAME the user   
-    usermod -l $USER -d /home/$USER rstudio
-    groupmod -n $USER rstudio
+    usermod -l $USER -d /home/$USER jovyan
+    groupmod -n $USER jovyan
     usermod -a -G staff $USER
     chown -R $USER:$USER /home/$USER
     echo "USER is now $USER"  
+    echo "$USER:$PASSWORD" | chpasswd
 fi
 
 if [ "$GROUPID" -ne 1000 ]
@@ -54,7 +55,7 @@ if [ "$GROUPID" -ne 1000 ]
 fi
   
 ## Add a password to user
-echo "$USER:$PASSWORD" | chpasswd
+
 
 # Use Env flag to know if user should be added to sudoers
 if [ "$ROOT" == "TRUE" ]
