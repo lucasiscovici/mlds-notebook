@@ -3,8 +3,8 @@
 
 sl="$1"
 oki="no"
-if [[ -f ".mldsEnv" && -n $(_getEnv.sh "NAME") ]]; then
-		sl=$(_getEnv.sh "NAME")
+if [[ -f ".mldsEnv" && -n $(cmd/_getEnv.sh "NAME") ]]; then
+		sl=$(cmd/_getEnv.sh "NAME")
 oki="yes"
 
 fi
@@ -39,7 +39,7 @@ else
 		export _dockerP=$(which docker)
 		export PATH="$(which envStart.sh)/cmd:$PATH";
 		export OLD_PS1="SETTED";
-		if _check.sh "$sl"; then
+		if cmd/_check.sh "$sl"; then
 			curr="*"
 		fi
 
