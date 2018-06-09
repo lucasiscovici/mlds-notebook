@@ -8,9 +8,10 @@ define shell-functions
 
 : END
 endef
-
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 # Generate the file with function declarations for the shell
-$(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh && chmod 777  .functions.sh)
+$(shell sed -n '/^: BEGIN/,/^: END/p' "${mkfile_path}" > .functions.sh && chmod 777  .functions.sh)
 
 SHELL := /bin/bash --init-file .functions.sh -i
 
@@ -106,7 +107,7 @@ help:
 
 mlds:
 	@if [[ -z "${help}" || ( "${help}" != "no" && "${help}" != "false" && "${help}" != "f") ]]; then \
-		make help; \
+		make -f "${mkfile_path}" help; \
 	else if [[ $(shell echo \"$(shell test -f "getP" && echo "true" || echo "false")\") = "true" ]]; then \
 	getP=./getP ;\
 	elif [[ $(shell test -f \"../getP\" && echo \"true\" || echo \"false\") = "true" ]];then \
@@ -127,7 +128,7 @@ h=$$($$getP ${portSparkRestMin} ${portSparkRestMax} 2> /dev/null) && \
 i=$$(($$g+${portSparkContextENbX})) && \
 l=$$(($$c+${portH2oNbX})) && \
 	 test -z $$getP  && echo "Error ------ getP"  || (\
-	(test ${printCommand} = "yes" && test "${quiet}" = "noj" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}" ${cmd}' || true ) && make a=$$a b=$$b c=$$c d=$$d e=$$e f=$$f g=$$g h=$$h i=$$i l=$$l _mlds; \
+	(test ${printCommand} = "yes" && test "${quiet}" = "noj" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}" ${cmd}' || true ) && make -f "${mkfile_path}" a=$$a b=$$b c=$$c d=$$d e=$$e f=$$f g=$$g h=$$h i=$$i l=$$l _mlds; \
 	fi
 
 _mlds:

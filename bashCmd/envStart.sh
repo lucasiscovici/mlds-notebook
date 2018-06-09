@@ -37,7 +37,7 @@ else
 		alias _exit="builtin exit"
 		alias _docker="docker"
 		export _dockerP=$(which docker)
-		export PATH="$(pwd):$PATH";
+		export PATH="$(which envStart.sh)/cmd:$PATH";
 		export OLD_PS1="SETTED";
 		if _check.sh "$sl"; then
 			curr="*"
