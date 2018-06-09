@@ -273,9 +273,9 @@ ENV PYSPARK_PYTHON="$CONDA_DIR/bin/python"
 #RUN ln -s /usr/local/bin $CUSTOM_DIR/bin
 # RUN mkdir -p $CUSTOM_DIR/bin 
 # RUN rm -rf /usr/local/bin/$NB_USER_CUSTOM.sh
-COPY $NB_USER_CUSTOM.sh /usr/local/bin
+
 USER root
-RUN chmod a+x /usr/local/bin/$NB_USER_CUSTOM.sh
+
 # RUN mkdir -p /srv/deb/var/lib /usr/local/bin_base && cp -R /var/lib/dpkg /srv/deb/var/lib
 # RUN mkdir -p /srv/tmp
 USER $NB_UID
@@ -377,12 +377,6 @@ RUN apt-get update \
           > $HOME/.rstudio/monitored/user-settings/user-settings  
 #   # && chown -R rstudio:rstudio $HOME/.rstudio
 
-COPY todo_Rstudio/userconf.sh /etc/cont-init.d/userconf
-
-## running with "-e ADD=shiny" adds shiny server
-COPY todo_Rstudio/add_shiny.sh /etc/cont-init.d/add
-
-COPY todo_Rstudio/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
 RUN chown -R jovyan:users $HOME/.rstudio
 # RUN sed -ir "s/stty rows/stty rows 24/" $HOME/.bashrc && sed -ir "s/stty cols/stty cols 100/" $HOME/.bashrc
@@ -396,4 +390,14 @@ COPY todo_Rstudio/encrypted-sign-in.htm /usr/lib/rstudio-server/www/templates/
 RUN echo "R_LIBS_USER=${R_LIBS_USER}" >> $R_HOME/etc/Renviron
 RUN conda install -c r r-base
 RUN apt-get -yqf install && apt-get update && apt-get install -yq --no-install-recommends libreadline-dev && pip install rpy2 --upgrade
+RUN echo "initialWorkingDirectory=~/work">> $HOME/.rstudio/monitored/user-settings/user-settings
+
+COPY todo_Rstudio/userconf.sh /etc/cont-init.d/userconf
+
+## running with "-e ADD=shiny" adds shiny server
+COPY todo_Rstudio/add_shiny.sh /etc/cont-init.d/add
+
+COPY todo_Rstudio/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
+COPY $NB_USER_CUSTOM.sh /usr/local/bin
+RUN chmod a+x /usr/local/bin/$NB_USER_CUSTOM.sh
 CMD ["mlds.sh"]
