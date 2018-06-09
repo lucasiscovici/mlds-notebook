@@ -9,10 +9,10 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 	echo "USAGE: commit.sh [image_name]'"
 fi
 if [[ -z "$OLD_PS1" ]]; then
-	echo -e "MLDS Env Obligatory !!\n\t$ ./envStart name"
+	echo -e "MLDS Env Obligatory !!\n\t$ envStart name"
 	exit
 fi
-if ! ./_check.sh $MLDS_C_CURR;then
+if ! _check.sh $MLDS_C_CURR;then
 	echo "No Container is running ($MLDS_C_CURR)"
 	exit
 fi
@@ -23,7 +23,7 @@ if [[ $# -ge 1 ]]; then
 	else
 		name="$1"
 		ifl="$2"
-			if [[ ($(./_checkImg.sh "$name") && $ifl == "-f" )|| ! $(./_checkImg.sh "$name") ]]; then
+			if [[ ($(./_checkImg.sh "$name") && $ifl == "-f" )|| ! $(_checkImg.sh "$name") ]]; then
 				_docker tag $name "tmp$name" &>/dev/null
 				_docker rmi $name &>/dev/null
 				_docker commit "$MLDS_C_CURR" "$name" &>/dev/null

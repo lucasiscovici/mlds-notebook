@@ -5,6 +5,6 @@ else
 		echo -e "stop.sh container_ID_NAME"
 	else
 		 _docker stop "$MLDS_C_CURR" && _docker rm "$MLDS_C_CURR" &>/dev/null
-		 ./kill.sh
+		 kill.sh
 	fi
 fi

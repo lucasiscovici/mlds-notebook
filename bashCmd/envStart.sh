@@ -3,8 +3,8 @@
 
 sl="$1"
 oki="no"
-if [[ -f "../.mldsEnv" && -n $(./_getEnv.sh "NAME") ]]; then
-		sl=$(./_getEnv.sh "NAME")
+if [[ -f ".mldsEnv" && -n $(_getEnv.sh "NAME") ]]; then
+		sl=$(_getEnv.sh "NAME")
 oki="yes"
 
 fi
@@ -39,7 +39,7 @@ else
 		export _dockerP=$(which docker)
 		export PATH="$(pwd):$PATH";
 		export OLD_PS1="SETTED";
-		if ./_check.sh "$sl"; then
+		if _check.sh "$sl"; then
 			curr="*"
 		fi
 
@@ -48,8 +48,8 @@ else
 		export MLDS_C_CURR="$sl" ;
 		export MLDS_BASE_IMG="luluisco/mlds-notebook:latest" ;
 		if [[ $oki == "no" && $sl != "_" ]]; then
-			echo "NAME=$MLDS_C_CURR" > ../.mldsEnv
+			echo "NAME=$MLDS_C_CURR" > .mldsEnv
 		fi
-bash --rcfile <(echo "function chbash(){ curr="";if ./_check.sh "\$1"; then curr="*"; fi; export PS1=\"MLDS-NB-C-CURR->\$1\$curr):\W\$ \";export MLDS_C_CURR=\"\$1\" ; };trap \"./_gb.sh\" exit;shopt -s expand_aliases;alias exit=\"./_exit.sh && _exit\";alias _exit=\"builtin exit\"; function _docker(){ "$_dockerP" \$@;};export -f _docker;function exit(){ ./_exit.sh 0; };function check(){ export PS1=\"MLDS-NB-C-CURR->\$MLDS_C_CURR\$(./_check.sh \$MLDS_C_CURR && echo '*')):\W$ \"; }; trap 'check' USR1;trap './_changeEnv.sh NAME \$(cat ./.tmpChangeEnv) && rm -rf ./.tmpChangeEnv;' USR2; echo -e \"For Stop The Env\n\t$ exit\";export pidMldsBase=\$$;check") || ./_gb.sh
+bash --rcfile <(echo "function chbash(){ curr="";if _check.sh "\$1"; then curr="*"; fi; export PS1=\"MLDS-NB-C-CURR->\$1\$curr):\W\$ \";export MLDS_C_CURR=\"\$1\" ; };trap \"_gb.sh\" exit;shopt -s expand_aliases;alias exit=\"_exit.sh && _exit\";alias _exit=\"builtin exit\"; function _docker(){ "$_dockerP" \$@;};export -f _docker;function exit(){ _exit.sh 0; };function check(){ export PS1=\"MLDS-NB-C-CURR->\$MLDS_C_CURR\$(_check.sh \$MLDS_C_CURR && echo '*')):\W$ \"; }; trap 'check' USR1;trap '_changeEnv.sh NAME \$(cat .tmpChangeEnv) && rm -rf .tmpChangeEnv;' USR2; echo -e \"For Stop The Env\n\t$ exit\";export pidMldsBase=\$$;check") || _gb.sh
 	fi
 fi

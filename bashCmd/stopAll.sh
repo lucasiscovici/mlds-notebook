@@ -1,1 +1,1 @@
-_docker stop $(_docker ps -q) && ./kill.sh
+_docker stop $(_docker ps -q) && kill.sh

@@ -15,7 +15,7 @@ $(shell sed -n '/^: BEGIN/,/^: END/p' ./Makefile > .functions.sh && chmod 777  .
 SHELL := /bin/bash --init-file .functions.sh -i
 
 k := $(strip $(PWD))
-work ?= $k/../home
+work ?= $k/home
 name ?= $(strip $(shell [[ -n "$$MLDS_C_CURR" ]]  && echo "$$MLDS_C_CURR"))
 custom ?= 
 image ?= luluisco/mlds-notebook:latest
@@ -132,7 +132,7 @@ l=$$(($$c+${portH2oNbX})) && \
 
 _mlds:
 	@echo _docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}"  ${cmd} 
-	@_docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}"  ${cmd} &&  ./kill.sh
+	@_docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}"  ${cmd} &&  kill.sh
 
 _test:
 	echo ${custom}

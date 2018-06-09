@@ -10,14 +10,14 @@ function 	getEnvIm(){
 
 function getIm(){
 	sfm="$(getEnvIm)"
-	if [[ -z $(./images.sh  -q --filter=reference=$sfm) ]]; then
+	if [[ -z $(images.sh  -q --filter=reference=$sfm) ]]; then
 			exit
 	fi
-	./images.sh  --filter=reference=$sfm $@ | tail -n +2
+	images.sh  --filter=reference=$sfm $@ | tail -n +2
 	#--format="{{.Repository}}"	
 }
 function getVol(){
-	./volumes.sh --filter=name=$(./myEnv.sh getEnvVol) $@  | tail -n +2
+	volumes.sh --filter=name=$(myEnv.sh getEnvVol) $@  | tail -n +2
 }
 function checkImExist(){
 	return [[ -n $(getIm) ]]

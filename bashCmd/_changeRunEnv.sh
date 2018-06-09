@@ -7,7 +7,7 @@ if [[ $# -eq 2 ]]; then
 		sed -E -i '' "/^$with=/d" ../.mldsEnv
 		exit
 	fi
-	if [[ -z  $(./_getEnv.sh  $quoi) ]]; then
+	if [[ -z  $(_getEnv.sh  $quoi) ]]; then
 		echo "$quoi=$with" >> ../.mldsEnv
 	else
 		sed -E -i '' "s/^($quoi=).*$/\1$with/" ../.mldsEnv
