@@ -8,7 +8,7 @@ if [[ $# -eq 1 ]]; then
 		echo $s
 	fi
 else
-	if [[ -f  .mldsEnv]]; then
+	if [[ -f  .mldsEnv ]]; then
 		cat .mldsEnv
 	else
 		echo "create .mldsEnv"
