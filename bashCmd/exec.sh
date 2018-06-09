@@ -1,6 +1,6 @@
 
 function _exec(){
-	if ! ./_check.sh "$1"; then
+	if ! _check.sh "$1"; then
 		echo "PB $1 n'existe pas"
 	else
 		# echo -e "PB $1 existe\n"

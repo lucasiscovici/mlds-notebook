@@ -303,7 +303,9 @@ ENV R_HOME="$CONDA_DIR/lib/R"
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
 USER root
-RUN conda install -c r r-essentials 
+RUN conda install -c r r-essentials r-base
+RUN apt-get -yqf install && apt-get update && apt-get install -yq --no-install-recommends libreadline-dev && pip install rpy2 --upgrade
+
 ## Download and install RStudio server & dependencies
 ## Attempts to get detect latest version, otherwise falls back to version given in $VER
 ## Symlink pandoc, pandoc-citeproc so they are available system-wide
@@ -388,8 +390,6 @@ RUN chown -R jovyan:users $HOME/.rstudio
 RUN bash -c 'cp /usr/lib/rstudio-server/www/templates/encrypted-sign-in.htm{,.old}' && rm -rf /usr/lib/rstudio-server/www/templates/encrypted-sign-in.htm
 COPY todo_Rstudio/encrypted-sign-in.htm /usr/lib/rstudio-server/www/templates/
 RUN echo "R_LIBS_USER=${R_LIBS_USER}" >> $R_HOME/etc/Renviron
-RUN conda install -c r r-base
-RUN apt-get -yqf install && apt-get update && apt-get install -yq --no-install-recommends libreadline-dev && pip install rpy2 --upgrade
 RUN echo "initialWorkingDirectory=~/work">> $HOME/.rstudio/monitored/user-settings/user-settings
 
 COPY todo_Rstudio/userconf.sh /etc/cont-init.d/userconf
