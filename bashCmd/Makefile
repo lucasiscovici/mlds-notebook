@@ -24,6 +24,7 @@ cmd ?= mlds.sh
 getP=
 home ?= /home/mlds/
 home_custom ?= .customs
+publish ?=
 home_work ?= 
 j = $(shell [[ -z "${custom}" ]] || echo "-v \"${custom}:${home}${home_custom}\"")
 jj = $(shell [[ -z "${work}" ]] || echo "-v \"${work}:${home}${home_work}\"")
@@ -108,16 +109,17 @@ help:
 mlds:
 	@if [[ -z "${help}" || ( "${help}" != "no" && "${help}" != "false" && "${help}" != "f") ]]; then \
 		make -f "${mkfile_path}" help; \
-	else if [[ $(shell echo \"$(shell test -f "getP" && echo "true" || echo "false")\") = "true" ]]; then \
-	getP=./getP ;\
-	elif [[ $(shell test -f \"../getP\" && echo \"true\" || echo \"false\") = "true" ]];then \
-	getP=../getP; \
-	elif [[ $(shell test -f \"bashCmd/getP\" && echo \"true\" || echo \"false\") = "true" ]];then \
-	getP=bashCmd/getP; \
-	elif [[ $(shell test -n `which getP` && echo \"true\" || echo \"false\" ) = "true"  ]];then \
-	getP=getP; \
-	else echo "PB"; \
-	fi && a=$$($$getP ${portNbMin} ${portNbMax}  2> /dev/null) && \
+	elif [[ "${publish}" != "_" ]]; then \
+		if [[ $(shell echo \"$(shell test -f "getP" && echo "true" || echo "false")\") = "true" ]]; then \
+		getP=./getP ;\
+		elif [[ $(shell test -f \"../getP\" && echo \"true\" || echo \"false\") = "true" ]];then \
+		getP=../getP; \
+		elif [[ $(shell test -f \"bashCmd/getP\" && echo \"true\" || echo \"false\") = "true" ]];then \
+		getP=bashCmd/getP; \
+		elif [[ $(shell test -n `which getP` && echo \"true\" || echo \"false\" ) = "true"  ]];then \
+		getP=getP; \
+		else echo "PB"; \
+		fi && a=$$($$getP ${portNbMin} ${portNbMax}  2> /dev/null) && \
 b=$$($$getP ${portTensorBoardMin} ${portTensorBoardMax} 2> /dev/null) && \
 c=$$($$getP ${portH2oMin} ${portH2oMax} 2> /dev/null) && \
 d=$$($$getP ${portSparkMin} ${portSparkMax} 2> /dev/null) && \
@@ -127,14 +129,21 @@ g=$$($$getP ${portSparkContextBMin} ${portSparkContextBMax} 2> /dev/null) && \
 h=$$($$getP ${portSparkRestMin} ${portSparkRestMax} 2> /dev/null) && \
 i=$$(($$g+${portSparkContextENbX})) && \
 l=$$(($$c+${portH2oNbX})) && \
-	 test -z $$getP  && echo "Error ------ getP"  || (\
+	 test -z $$getP  && echo "Error ------ getP" ; \
+	  fi && (\
 	(test ${printCommand} = "yes" && test "${quiet}" = "noj" ) && echo 'docker run ${jname} "${debug}" "${run_rm}" ${j} ${jj} -p "'$$( echo $$d)':${portSpark}" -p "'$$( echo $$g)'-'$$( echo $$i)':${portSparkContextB}-${portSparkContextE}" -p "'$$( echo $$h)':${portSparkRest}" -p "'$$( echo $$f)':${portSparkSlave}" -p "'$$( echo $$e)':${portSparkMaster}" -p "'$$( echo $$a)':${portNb}" -p "'$$( echo $$b)':${portTensorBoard}" -p "'$$( echo $$c)'-'$$( echo $$l)':${portH2o}" ${more} "${image}" ${cmd}' || true ) && make -f "${mkfile_path}" a=$$a b=$$b c=$$c d=$$d e=$$e f=$$f g=$$g h=$$h i=$$i l=$$l _mlds; \
-	fi
+	
 
 _mlds:
-	@echo _docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}"  ${cmd} 
-	@_docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}"  ${cmd} &&  kill.sh
-
+	@if [[ "${publish}" == "_" ]]; then \
+		echo _docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} ${more} "${image}"  ${cmd}; \
+		_docker run ${jname} ${debug} ${run_rm}  ${j} ${jj}  ${more} "${image}"  ${cmd} &&  kill.sh; \
+		exit 0 ;\
+	else \
+	echo _docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}" ${more} "${image}"  ${cmd}; \
+	_docker run ${jname} ${debug} ${run_rm}  ${j} ${jj} -p "$$d:${portSpark}" -p "$$g-$$i:${portSparkContextB}-${portSparkContextE}" -p "$$h:${portSparkRest}" -p "$$f:${portSparkSlave}" -p "$$e:${portSparkMaster}" -p "$$a:${portNb}" -p "$$b:${portTensorBoard}" -p "$$c-$$l:${portH2o}"${more} "${image}"  ${cmd} &&  kill.sh; \
+	exit 0 ;\
+	fi
 _test:
 	echo ${custom}
 define PB

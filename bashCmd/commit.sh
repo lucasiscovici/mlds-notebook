@@ -28,9 +28,9 @@ if [[ $# -ge 1 ]]; then
 				_docker rmi $name &>/dev/null
 				_docker commit "$MLDS_C_CURR" "$name" &>/dev/null
 				_docker rmi "tmp$name" &>/dev/null
-				sd="~/.mlds/diff/$MLDS_C_CURR/$(myEnv.sh getIm | tr -s ' ' | cut -f3 -d' ')"
+				sd="$HOME/.mlds/diff/$MLDS_C_CURR/$(myEnv.sh getIm | tr -s ' ' | cut -f3 -d' ')"
 				mkdir -p "$sd"
-				_docker diff $MLDS_C_CURR > "$sd/diff"
+				_docker diff "$MLDS_C_CURR" > "$sd/diff"
 				exit
 			else
 				echo "Name if image aleady exist"

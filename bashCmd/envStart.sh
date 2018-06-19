@@ -4,6 +4,10 @@
 sl="$1"
 oki="no"
 cmd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/cmd"
+if [[ -n "$OLD_PS1" ]]; then
+		echo -e "Only one Env ! Exit for create new one ...\n$ exit"
+		exit
+fi
 if [[ -f ".mldsEnv" && -n $($cmd/_getEnv.sh "NAME") ]]; then
 		sl=$($cmd/_getEnv.sh "NAME")
 oki="yes"

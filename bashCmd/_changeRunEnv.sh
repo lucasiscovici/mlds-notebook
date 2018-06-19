@@ -3,7 +3,7 @@
 if [[ $# -ge 1 ]]; then
 	quoi="__$1"
 	with="$2"
-	if [[ $quoi == "-d" ]]; then
+	if [[ $quoi == "__-d" ]]; then
 		sed -E -i '' "/^$with=/d" .mldsEnv
 		exit
 	fi
