@@ -428,7 +428,16 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
 
 RUN  R -e "source('https://bioconductor.org/biocLite.R')" \
    && Rscript -e "install.packages(c('littler', 'docopt','tidyverse','dplyr','ggplot2','devtools','formatR','remotes','selectr','caTools'))"
+RUN jupyter labextension install jupyterlab-sos
 
+# RUN mkdir -p /opt/conda/lib/python3.6/site-packages/infix-1.2 && pip install inrex 
+COPY infix-1.2/in* /opt/conda/lib/python3.6/site-packages/
+RUN pip install dfply plotnine && conda install numba --quiet --yes
+
+COPY $NB_USER_CUSTOM.sh /usr/local/bin
+USER $NB_USER
+# RUN python /opt/conda/lib/python3.6/site-packages/infix-1.2/setup.py install 
+USER root
 COPY $NB_USER_CUSTOM.sh /usr/local/bin
 RUN chmod a+x /usr/local/bin/$NB_USER_CUSTOM.sh
 RUN rm -rf $HOME/work/*
